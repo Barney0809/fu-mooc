@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TestService {
     public Test selectByPrimaryKey(Integer id);
+    public List<Test> list();
 }
