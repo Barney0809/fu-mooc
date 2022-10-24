@@ -1,12 +1,16 @@
 package com.fu.system;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
+@ComponentScan("com.fu")
+@MapperScan("com.fu.server.mapper")
 public class SystemApplication {
     public static final Logger log = LoggerFactory.getLogger(SystemApplication.class);
 
