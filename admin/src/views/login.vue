@@ -7,7 +7,7 @@
             <div class="center">
               <h1>
                 <i class="ace-icon fa fa-leaf green"></i>
-                <span class="red">Fu慕课</span>
+                <span class="red">FU慕课</span>
                 <span class="black" id="id-text2">控台登录</span>
               </h1>
             </div>
