@@ -52,38 +52,9 @@
       <property name="enableSubPackages" value="true"/>
     </javaClientGenerator>
     <!--生成对应表及类名-->
-<!--    <table schema="root" tableName="sys_log" domainObjectName="Log"-->
-<!--      enableCountByExample="false"-->
-<!--      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--      selectByExampleQueryId="false">-->
-<!--    </table>-->
-    <table tableName="test" domainObjectName="Test">
-    </table>
-<!--    <table tableName="t_article" domainObjectName="Article" enableCountByExample="false"-->
-<!--      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--      selectByExampleQueryId="false">-->
-<!--    </table>-->
-<!--    <table tableName="t_article_tag" domainObjectName="ArticleTag"-->
-<!--      enableCountByExample="false"-->
-<!--      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--      selectByExampleQueryId="false">-->
-<!--    </table>-->
-<!--    <table tableName="t_article_body" domainObjectName="ArticleBody" enableCountByExample="false"-->
-<!--      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--      selectByExampleQueryId="false">-->
-<!--    </table>-->
-<!--    <table tableName="t_category" domainObjectName="Category" enableCountByExample="false"-->
-<!--      enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--      selectByExampleQueryId="false">-->
-<!--    </table>-->
-<!--    <table tableName="t_comment" domainObjectName="Comment" enableCountByExample="false"-->
-<!--           enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--           selectByExampleQueryId="false">-->
-<!--    </table>-->
-<!--    <table tableName="t_tag" domainObjectName="Tag" enableCountByExample="false"-->
-<!--           enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--           selectByExampleQueryId="false">-->
-<!--    </table>-->
+
+<!--    <table tableName="test" domainObjectName="Test"/>-->
+    <table tableName="chapter" domainObjectName="Chapter"/>
 
   </context>
 </generatorConfiguration>
