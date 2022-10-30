@@ -9,7 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
-@MapperScan("com.fu.server.mappers")
+@ComponentScan("com.fu")
+@MapperScan("com.fu.server.mapper")
 public class BusinessApplication {
     public static final Logger log = LoggerFactory.getLogger(BusinessApplication.class);
 

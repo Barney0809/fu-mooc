@@ -1,0 +1,31 @@
+package com.fu.server.service.impl;
+
+import com.fu.server.domain.Chapter;
+import com.fu.server.domain.ChapterExample;
+import com.fu.server.dto.ChapterDto;
+import com.fu.server.mapper.ChapterMapper;
+import com.fu.server.service.ChapterService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class ChapterServiceImpl implements ChapterService {
+    @Resource
+    private ChapterMapper chapterMapper;
+
+    @Override
+    public List<ChapterDto> list() {
+        List<Chapter> chapterList = chapterMapper.selectByExample(new ChapterExample());
+        List<ChapterDto> chapterDtoList = new ArrayList<>();
+        for (Chapter chapter : chapterList) {
+            ChapterDto chapterDto = new ChapterDto();
+            BeanUtils.copyProperties(chapter,chapterDto);
+            chapterDtoList.add(chapterDto);
+        }
+        return chapterDtoList;
+    }
+}
