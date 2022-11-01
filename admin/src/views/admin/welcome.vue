@@ -5,13 +5,12 @@
 </template>
 
 <script>
-  export default {
+export default {
   name: "welcome",
-  mounted: function() {
-  this.$parent.activeSidebar("welcome-sidebar");
-},
-  methods: {
-}
+  mounted: function () {
+    this.$parent.activeSidebar("welcome-sidebar");
+  },
+  methods: {}
 }
 </script>
 
