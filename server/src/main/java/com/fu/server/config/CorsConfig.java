@@ -1,3 +1,4 @@
+//单体应用时推荐使用
 //package com.fu.server.config;
 //
 //import org.springframework.context.annotation.Configuration;
