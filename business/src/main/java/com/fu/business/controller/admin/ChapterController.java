@@ -5,9 +5,7 @@ import com.fu.server.dto.PageDto;
 import com.fu.server.service.ChapterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -25,5 +23,12 @@ public class ChapterController {
         LOG.info("pageDto: {}", pageDto);
         chapterService.list(pageDto);
         return pageDto;
+    }
+
+    @PostMapping("/save")
+    public ChapterDto save(@RequestBody ChapterDto chapterDto) {
+        LOG.info("chapterDto: {}", chapterDto);
+        chapterService.save(chapterDto);
+        return chapterDto;
     }
 }

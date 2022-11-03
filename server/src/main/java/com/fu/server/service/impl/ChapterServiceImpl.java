@@ -6,6 +6,7 @@ import com.fu.server.dto.ChapterDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.mapper.ChapterMapper;
 import com.fu.server.service.ChapterService;
+import com.fu.server.utils.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
@@ -33,5 +34,13 @@ public class ChapterServiceImpl implements ChapterService {
             chapterDtoList.add(chapterDto);
         }
         pageDto.setList(chapterDtoList);
+    }
+
+    @Override
+    public void save(ChapterDto chapterDto) {
+        chapterDto.setId(UuidUtil.getShortUuid());
+        Chapter chapter = new Chapter();
+        BeanUtils.copyProperties(chapterDto, chapter);
+        chapterMapper.insert(chapter);
     }
 }
