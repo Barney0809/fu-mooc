@@ -5,6 +5,7 @@ import com.fu.server.domain.ChapterExample;
 import com.fu.server.dto.ChapterDto;
 import com.fu.server.mapper.ChapterMapper;
 import com.fu.server.service.ChapterService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     public List<ChapterDto> list() {
+        PageHelper.startPage(1, 1);
         List<Chapter> chapterList = chapterMapper.selectByExample(new ChapterExample());
         List<ChapterDto> chapterDtoList = new ArrayList<>();
         for (Chapter chapter : chapterList) {
