@@ -89,9 +89,14 @@ export default {
   methods: {
     list() {
       let _this = this;
-      _this.$axios.get('http://127.0.0.1:9000/business/admin/chapter/list').then((response)=>{
+      _this.$axios.get('http://127.0.0.1:9000/business/admin/chapter/list',{
+        params:{
+          page:1,
+          size:10
+        }
+      }).then((response)=>{
         console.log("查询大章列表结果：", response);
-        _this.chapters = response.data;
+        _this.chapters = response.data.list;
       })
     }
   }
