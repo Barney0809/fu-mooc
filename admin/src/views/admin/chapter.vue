@@ -29,20 +29,11 @@
         <td>{{ chapter.courseId }}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-success">
-              <i class="ace-icon fa fa-check bigger-120"></i>
-            </button>
-
             <button class="btn btn-xs btn-info">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-
             <button class="btn btn-xs btn-danger">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
-            </button>
-
-            <button class="btn btn-xs btn-warning">
-              <i class="ace-icon fa fa-flag bigger-120"></i>
             </button>
           </div>
 
@@ -54,26 +45,17 @@
 
               <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                 <li>
-                  <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
-                                  <span class="blue">
-                                    <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                  </span>
-                  </a>
-                </li>
-
-                <li>
                   <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                  <span class="green">
-                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                  </span>
+                     <span class="green">
+                       <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                     </span>
                   </a>
                 </li>
-
                 <li>
                   <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
-                                  <span class="red">
-                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                  </span>
+                     <span class="red">
+                       <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                     </span>
                   </a>
                 </li>
               </ul>
@@ -87,7 +69,8 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">表单</h4>
           </div>
           <div class="modal-body">
@@ -118,6 +101,7 @@
 
 <script>
 import Pagination from "@/components/pagination";
+
 export default {
   components: {Pagination},
   name: "chapter",
@@ -154,9 +138,9 @@ export default {
     },
     save(page) {
       let _this = this;
-      _this.$axios.post('http://127.0.0.1:9000/business/admin/chapter/save', _this.chapter).then((response)=>{
+      _this.$axios.post('http://127.0.0.1:9000/business/admin/chapter/save', _this.chapter).then((response) => {
         console.log("保存大章列表结果：", response);
-        if(response.data.code === "0"){
+        if (response.data.code === "0") {
           $("#form-modal").modal("hide");
           _this.list(1);
         }
