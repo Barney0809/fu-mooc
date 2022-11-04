@@ -6,6 +6,7 @@ import com.fu.server.dto.ChapterDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.mapper.ChapterMapper;
 import com.fu.server.service.ChapterService;
+import com.fu.server.utils.CopyUtil;
 import com.fu.server.utils.UuidUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,20 +28,22 @@ public class ChapterServiceImpl implements ChapterService {
         List<Chapter> chapterList = chapterMapper.selectByExample(new ChapterExample());
         PageInfo<Chapter> pageInfo = new PageInfo<>(chapterList);
         pageDto.setTotal(pageInfo.getTotal());
-        List<ChapterDto> chapterDtoList = new ArrayList<>();
-        for (Chapter chapter : chapterList) {
-            ChapterDto chapterDto = new ChapterDto();
-            BeanUtils.copyProperties(chapter,chapterDto);
-            chapterDtoList.add(chapterDto);
-        }
+//        List<ChapterDto> chapterDtoList = new ArrayList<>();
+//        for (Chapter chapter : chapterList) {
+//            ChapterDto chapterDto = new ChapterDto();
+//            BeanUtils.copyProperties(chapter,chapterDto);
+//            chapterDtoList.add(chapterDto);
+//        }
+        List<ChapterDto> chapterDtoList = CopyUtil.copyList(chapterList, ChapterDto.class);
         pageDto.setList(chapterDtoList);
     }
 
     @Override
     public void save(ChapterDto chapterDto) {
         chapterDto.setId(UuidUtil.getShortUuid());
-        Chapter chapter = new Chapter();
-        BeanUtils.copyProperties(chapterDto, chapter);
+//        Chapter chapter = new Chapter();
+//        BeanUtils.copyProperties(chapterDto, chapter);
+        Chapter chapter = CopyUtil.copy(chapterDto,Chapter.class);
         chapterMapper.insert(chapter);
     }
 }
