@@ -149,6 +149,7 @@ export default {
         if (response.data.code === "0") {
           $("#form-modal").modal("hide");
           _this.list(1);
+          toast.success("保存成功！");
         }
       })
     },
@@ -177,11 +178,7 @@ export default {
             console.log("删除大章列表结果：", response);
             if (response.data.code === "0") {
               _this.list(1);
-              swalWithBootstrapButtons.fire(
-                  '删除成功',
-                  '删除成功！',
-                  'success'
-              )
+              toast.success("删除成功！")
             }
           })
         }
