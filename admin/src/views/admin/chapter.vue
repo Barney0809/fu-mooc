@@ -32,7 +32,7 @@
             <button class="btn btn-xs btn-info" v-on:click="edit(chapter)">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-            <button class="btn btn-xs btn-danger" v-on:click="del()">
+            <button class="btn btn-xs btn-danger" v-on:click="del(chapter.id)">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
           </div>
@@ -148,6 +148,15 @@ export default {
         console.log("保存大章列表结果：", response);
         if (response.data.code === "0") {
           $("#form-modal").modal("hide");
+          _this.list(1);
+        }
+      })
+    },
+    del(id) {
+      let _this = this;
+      _this.$axios.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
+        console.log("删除大章列表结果：", response);
+        if (response.data.code === "0") {
           _this.list(1);
         }
       })

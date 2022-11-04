@@ -32,4 +32,11 @@ public class ChapterController {
         chapterService.save(chapterDto);
         return ResponseDto.success(chapterDto);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseDto<ChapterDto> delete(@PathVariable String id) {
+        LOG.info("id: {}", id);
+        chapterService.delete(id);
+        return ResponseDto.success();
+    }
 }

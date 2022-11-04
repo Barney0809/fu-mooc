@@ -50,6 +50,11 @@ public class ChapterServiceImpl implements ChapterService {
         }
     }
 
+    @Override
+    public void delete(String id) {
+        chapterMapper.deleteByPrimaryKey(id);
+    }
+
     private void insert(Chapter chapter) {
         chapter.setId(UuidUtil.getShortUuid());
         chapterMapper.insert(chapter);
