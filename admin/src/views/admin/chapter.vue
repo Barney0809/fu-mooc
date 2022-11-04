@@ -29,10 +29,10 @@
         <td>{{ chapter.courseId }}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-info">
+            <button class="btn btn-xs btn-info" v-on:click="edit(chapter)">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
-            <button class="btn btn-xs btn-danger">
+            <button class="btn btn-xs btn-danger" v-on:click="del()">
               <i class="ace-icon fa fa-trash-o bigger-120"></i>
             </button>
           </div>
@@ -45,7 +45,7 @@
 
               <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                 <li>
-                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(chapter)">
                      <span class="green">
                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                      </span>
@@ -121,6 +121,12 @@ export default {
   methods: {
     add() {
       let _this = this;
+      _this.chapter = {};
+      $("#form-modal").modal("show");
+    },
+    edit(chapter) {
+      let _this = this;
+      _this.chapter = $.extend({},chapter);
       $("#form-modal").modal("show");
     },
     list(page) {
