@@ -131,12 +131,14 @@ export default {
     },
     list(page) {
       let _this = this;
+      Loading.show();
       _this.$axios.get('http://127.0.0.1:9000/business/admin/chapter/list', {
         params: {
           page: page,
           size: _this.$refs.pagination.size
         }
       }).then((response) => {
+        Loading.hide();
         console.log("查询大章列表结果：", response);
         _this.chapters = response.data.data.list;
         _this.$refs.pagination.render(page, response.data.data.total);
@@ -144,7 +146,9 @@ export default {
     },
     save(page) {
       let _this = this;
+      Loading.show();
       _this.$axios.post('http://127.0.0.1:9000/business/admin/chapter/save', _this.chapter).then((response) => {
+        Loading.hide();
         console.log("保存大章列表结果：", response);
         if (response.data.code === "0") {
           $("#form-modal").modal("hide");
@@ -155,15 +159,7 @@ export default {
     },
     del(id) {
       let _this = this;
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
-      })
-
-      swalWithBootstrapButtons.fire({
+      Swal.fire({
         title: '确认删除',
         text: "删除后将不可恢复，确认删除吗？",
         type: 'warning',
@@ -173,8 +169,9 @@ export default {
         reverseButtons: true
       }).then((result) => {
         if (result.value) {
-
+          Loading.show();
           _this.$axios.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
+            Loading.hide();
             console.log("删除大章列表结果：", response);
             if (response.data.code === "0") {
               _this.list(1);
@@ -183,7 +180,6 @@ export default {
           })
         }
       })
-
     }
   }
 }
