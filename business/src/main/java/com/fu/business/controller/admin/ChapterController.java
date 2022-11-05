@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping("/admin/chapter")
 public class ChapterController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ChapterController.class);
     public static final String BUSINESS_NAME = "大章";
 
     @Resource
@@ -23,21 +22,18 @@ public class ChapterController {
 
     @GetMapping("/list")
     public ResponseDto<PageDto> chapter(PageDto pageDto) {
-        LOG.info("pageDto: {}", pageDto);
         chapterService.list(pageDto);
         return ResponseDto.success(pageDto);
     }
 
     @PostMapping("/save")
     public ResponseDto<ChapterDto> save(@RequestBody ChapterDto chapterDto) {
-        LOG.info("chapterDto: {}", chapterDto);
         chapterService.save(chapterDto);
         return ResponseDto.success(chapterDto);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseDto<ChapterDto> delete(@PathVariable String id) {
-        LOG.info("id: {}", id);
         chapterService.delete(id);
         return ResponseDto.success();
     }

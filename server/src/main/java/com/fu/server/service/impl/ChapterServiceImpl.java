@@ -24,6 +24,9 @@ public class ChapterServiceImpl implements ChapterService {
     @Resource
     private ChapterMapper chapterMapper;
 
+    /**
+     * 列表查询
+     */
     @Override
     public void list(PageDto pageDto) {
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
@@ -40,6 +43,9 @@ public class ChapterServiceImpl implements ChapterService {
         pageDto.setList(chapterDtoList);
     }
 
+    /**
+     * 保存，id有值时更新，无值时新增
+     */
     @Override
     public void save(ChapterDto chapterDto) {
         // 保存校验
@@ -56,16 +62,24 @@ public class ChapterServiceImpl implements ChapterService {
         }
     }
 
+    /**
+     * 删除
+     */
     @Override
     public void delete(String id) {
         chapterMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 新增
+     */
     private void insert(Chapter chapter) {
         chapter.setId(UuidUtil.getShortUuid());
         chapterMapper.insert(chapter);
     }
-
+    /**
+     * 更新
+     */
     private void update(Chapter chapter) {
         chapterMapper.updateByPrimaryKey(chapter);
     }

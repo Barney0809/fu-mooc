@@ -119,16 +119,27 @@ export default {
     // this.$parent.activeSidebar("business-chapter-sidebar");
   },
   methods: {
+    /**
+     * 点击【新增】
+     */
     add() {
       let _this = this;
       _this.chapter = {};
       $("#form-modal").modal("show");
     },
+
+    /**
+     * 点击【编辑】
+     */
     edit(chapter) {
       let _this = this;
       _this.chapter = $.extend({},chapter);
       $("#form-modal").modal("show");
     },
+
+    /**
+     * 列表查询
+     */
     list(page) {
       let _this = this;
       Loading.show();
@@ -144,7 +155,11 @@ export default {
         _this.$refs.pagination.render(page, response.data.data.total);
       })
     },
-    save(page) {
+
+    /**
+     * 点击【保存】
+     */
+    save() {
       let _this = this;
       // 保存校验
       if (!Validator.require(_this.chapter.name, "名称")
@@ -165,6 +180,10 @@ export default {
         }
       })
     },
+
+    /**
+     * 点击【删除】
+     */
     del(id) {
       let _this = this;
       Confirm.show("删除后将不可恢复，确认删除吗？",function (){
