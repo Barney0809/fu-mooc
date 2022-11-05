@@ -8,6 +8,7 @@ import com.fu.server.mapper.ChapterMapper;
 import com.fu.server.service.ChapterService;
 import com.fu.server.utils.CopyUtil;
 import com.fu.server.utils.UuidUtil;
+import com.fu.server.utils.ValidatorUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
@@ -41,6 +42,11 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     public void save(ChapterDto chapterDto) {
+        // 保存校验
+        ValidatorUtil.require(chapterDto.getName(), "名称");
+        ValidatorUtil.require(chapterDto.getCourseId(), "课程ID");
+        ValidatorUtil.length(chapterDto.getCourseId(), "课程ID", 1, 8);
+
         Chapter chapter = CopyUtil.copy(chapterDto,Chapter.class);
         if(StringUtils.isEmpty(chapterDto.getId())){
             insert(chapter);

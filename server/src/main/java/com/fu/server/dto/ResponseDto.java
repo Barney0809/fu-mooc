@@ -39,6 +39,10 @@ public class ResponseDto<T> {
         return new ResponseDto<>("-1","服务端错误");
     }
 
+    public static <T> ResponseDto<T> error(String message){
+        return new ResponseDto<>("-1",message);
+    }
+
     public String getCode() {
         return code;
     }
