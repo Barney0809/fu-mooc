@@ -11,12 +11,9 @@ import com.fu.server.utils.UuidUtil;
 import com.fu.server.utils.ValidatorUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
