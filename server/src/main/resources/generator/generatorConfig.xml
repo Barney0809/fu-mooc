@@ -43,7 +43,7 @@
       <property name="immutable" value="false"/>
     </javaModelGenerator>
     <!--生成mapper映射文件存放位置-->
-    <sqlMapGenerator targetPackage="mappers" targetProject="src/main/resources">
+    <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
       <property name="enableSubPackages" value="true"/>
     </sqlMapGenerator>
     <!--生成Dao类存放位置-->
