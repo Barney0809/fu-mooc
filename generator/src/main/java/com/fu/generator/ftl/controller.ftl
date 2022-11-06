@@ -1,0 +1,36 @@
+package com.fu.business.controller.admin;
+
+import com.fu.server.dto.${Domain}Dto;
+import com.fu.server.dto.PageDto;
+import com.fu.server.dto.ResponseDto;
+import com.fu.server.service.${Domain}Service;
+import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
+
+@RestController
+@RequestMapping("/admin/${domain}")
+public class ${Domain}Controller {
+
+    public static final String BUSINESS_NAME = "大章";
+
+    @Resource
+    private ${Domain}Service ${domain}Service;
+
+    @GetMapping("/list")
+    public ResponseDto<PageDto> ${domain}(PageDto pageDto) {
+        ${domain}Service.list(pageDto);
+        return ResponseDto.success(pageDto);
+    }
+
+    @PostMapping("/save")
+    public ResponseDto<${Domain}Dto> save(@RequestBody ${Domain}Dto ${domain}Dto) {
+        ${domain}Service.save(${domain}Dto);
+        return ResponseDto.success(${domain}Dto);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseDto<${Domain}Dto> delete(@PathVariable String id) {
+        ${domain}Service.delete(id);
+        return ResponseDto.success();
+    }
+}
