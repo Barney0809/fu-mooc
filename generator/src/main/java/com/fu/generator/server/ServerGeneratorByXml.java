@@ -16,6 +16,7 @@ public class ServerGeneratorByXml {
     static String toControllerPath = MODULE + "\\src\\main\\java\\com\\fu\\" + MODULE +"\\controller\\admin\\";
     static String toDtoPath = "server\\src\\main\\java\\com\\fu\\server\\dto\\";
     static String generatorConfigPath = "server\\src\\main\\resources\\generator\\generatorConfig.xml";
+    static String toVuePath = "admin\\src\\views\\admin\\";
 
 
     public static void main(String[] args) throws Exception{
@@ -65,6 +66,10 @@ public class ServerGeneratorByXml {
         //生成Controller
         FreemarkerUtil.initConfig("controller.ftl");
         FreemarkerUtil.generator(toControllerPath + Domain + "Controller.java", map);
+
+        // 生成vue
+        FreemarkerUtil.initConfig("vue.ftl");
+        FreemarkerUtil.generator(toVuePath + domain + ".vue", map);
     }
 
     /**
