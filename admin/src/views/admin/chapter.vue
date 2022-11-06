@@ -143,7 +143,7 @@ export default {
     list(page) {
       let _this = this;
       Loading.show();
-      _this.$axios.get('http://127.0.0.1:9000/business/admin/chapter/list', {
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/chapter/list', {
         params: {
           page: page,
           size: _this.$refs.pagination.size
@@ -168,7 +168,7 @@ export default {
       //   return;
       // }
       Loading.show();
-      _this.$axios.post('http://127.0.0.1:9000/business/admin/chapter/save', _this.chapter).then((response) => {
+      _this.$axios.post(process.env.VUE_APP_SERVER + '/business/admin/chapter/save', _this.chapter).then((response) => {
         Loading.hide();
         console.log("保存大章列表结果：", response);
         if (response.data.code === "0") {
@@ -188,7 +188,7 @@ export default {
       let _this = this;
       Confirm.show("删除后将不可恢复，确认删除吗？",function (){
         Loading.show();
-        _this.$axios.delete('http://127.0.0.1:9000/business/admin/chapter/delete/' + id).then((response) => {
+        _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/chapter/delete/' + id).then((response) => {
           Loading.hide();
           console.log("删除大章列表结果：", response);
           if (response.data.code === "0") {
