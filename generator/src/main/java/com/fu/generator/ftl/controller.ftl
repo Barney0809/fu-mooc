@@ -1,4 +1,4 @@
-package com.fu.business.controller.admin;
+package com.fu.${module}.controller.admin;
 
 import com.fu.server.dto.${Domain}Dto;
 import com.fu.server.dto.PageDto;
@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 @RequestMapping("/admin/${domain}")
 public class ${Domain}Controller {
 
-    public static final String BUSINESS_NAME = "大章";
+    public static final String BUSINESS_NAME = "${tableNameCn}";
 
     @Resource
     private ${Domain}Service ${domain}Service;
