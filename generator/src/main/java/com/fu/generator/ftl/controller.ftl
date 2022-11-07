@@ -4,6 +4,7 @@ import com.fu.server.dto.${Domain}Dto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.dto.ResponseDto;
 import com.fu.server.service.${Domain}Service;
+import com.fu.server.utils.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
@@ -24,6 +25,15 @@ public class ${Domain}Controller {
 
     @PostMapping("/save")
     public ResponseDto<${Domain}Dto> save(@RequestBody ${Domain}Dto ${domain}Dto) {
+        // 保存校验
+        <#list fieldList as field>
+            <#if !field.nullAble>
+        ValidatorUtil.require(${domain}Dto.get${field.nameBigHump}(), "${field.nameCn}");
+            </#if>
+            <#if (field.length > 0)>
+        ValidatorUtil.length(${domain}Dto.get${field.nameBigHump}(), "${field.nameCn}", 1, ${field.length});
+            </#if>
+        </#list>
         ${domain}Service.save(${domain}Dto);
         return ResponseDto.success(${domain}Dto);
     }
