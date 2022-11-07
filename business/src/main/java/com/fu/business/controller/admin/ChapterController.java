@@ -1,6 +1,7 @@
 package com.fu.business.controller.admin;
 
 import com.fu.server.dto.ChapterDto;
+import com.fu.server.dto.ChapterPageDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.dto.ResponseDto;
 import com.fu.server.service.ChapterService;
@@ -17,9 +18,9 @@ public class ChapterController {
     private ChapterService chapterService;
 
     @GetMapping("/list")
-    public ResponseDto<PageDto> chapter(PageDto pageDto) {
-        chapterService.list(pageDto);
-        return ResponseDto.success(pageDto);
+    public ResponseDto<ChapterPageDto> chapter(ChapterPageDto chapterPageDto) {
+        chapterService.list(chapterPageDto);
+        return ResponseDto.success(chapterPageDto);
     }
 
     @PostMapping("/save")

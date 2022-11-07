@@ -3,6 +3,7 @@ package com.fu.server.service.impl;
 import com.fu.server.domain.Chapter;
 import com.fu.server.domain.ChapterExample;
 import com.fu.server.dto.ChapterDto;
+import com.fu.server.dto.ChapterPageDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.mapper.ChapterMapper;
 import com.fu.server.service.ChapterService;
@@ -25,19 +26,18 @@ public class ChapterServiceImpl implements ChapterService {
      * 列表查询
      */
     @Override
-    public void list(PageDto pageDto) {
-        PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
-        List<Chapter> chapterList = chapterMapper.selectByExample(new ChapterExample());
+    public void list(ChapterPageDto chapterPageDto) {
+        PageHelper.startPage(chapterPageDto.getPage(), chapterPageDto.getSize());
+        ChapterExample chapterExample = new ChapterExample();
+        ChapterExample.Criteria criteria = chapterExample.createCriteria();
+        if (!StringUtils.isEmpty(chapterPageDto.getCourseId())) {
+            criteria.andCourseIdEqualTo(chapterPageDto.getCourseId());
+        }
+        List<Chapter> chapterList = chapterMapper.selectByExample(chapterExample);
         PageInfo<Chapter> pageInfo = new PageInfo<>(chapterList);
-        pageDto.setTotal(pageInfo.getTotal());
-//        List<ChapterDto> chapterDtoList = new ArrayList<>();
-//        for (Chapter chapter : chapterList) {
-//            ChapterDto chapterDto = new ChapterDto();
-//            BeanUtils.copyProperties(chapter,chapterDto);
-//            chapterDtoList.add(chapterDto);
-//        }
+        chapterPageDto.setTotal(pageInfo.getTotal());
         List<ChapterDto> chapterDtoList = CopyUtil.copyList(chapterList, ChapterDto.class);
-        pageDto.setList(chapterDtoList);
+        chapterPageDto.setList(chapterDtoList);
     }
 
     /**
