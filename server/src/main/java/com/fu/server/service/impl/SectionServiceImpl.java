@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Date;
 
 @Service
 public class SectionServiceImpl implements SectionService {
@@ -27,7 +28,9 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public void list(PageDto pageDto) {
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
-        List<Section> sectionList = sectionMapper.selectByExample(new SectionExample());
+        SectionExample sectionExample = new SectionExample();
+        sectionExample.setOrderByClause("sort asc");
+        List<Section> sectionList = sectionMapper.selectByExample(sectionExample);
         PageInfo<Section> pageInfo = new PageInfo<>(sectionList);
         pageDto.setTotal(pageInfo.getTotal());
         List<SectionDto> sectionDtoList = CopyUtil.copyList(sectionList, SectionDto.class);
@@ -61,6 +64,9 @@ public class SectionServiceImpl implements SectionService {
      * 新增
      */
     private void insert(Section section) {
+        Date now = new Date();
+        section.setCreatedAt(now);
+        section.setUpdatedAt(now);
         section.setId(UuidUtil.getShortUuid());
         sectionMapper.insert(section);
     }
@@ -68,6 +74,7 @@ public class SectionServiceImpl implements SectionService {
      * 更新
      */
     private void update(Section section) {
+        section.setUpdatedAt(new Date());
         sectionMapper.updateByPrimaryKey(section);
     }
 }
