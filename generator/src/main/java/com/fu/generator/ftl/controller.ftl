@@ -18,7 +18,7 @@ public class ${Domain}Controller {
     private ${Domain}Service ${domain}Service;
 
     @GetMapping("/list")
-    public ResponseDto<PageDto> ${domain}(PageDto pageDto) {
+    public ResponseDto<PageDto> list(PageDto pageDto) {
         ${domain}Service.list(pageDto);
         return ResponseDto.success(pageDto);
     }

@@ -3,6 +3,7 @@ package com.fu.business.controller.admin;
 import com.fu.server.dto.SectionDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.dto.ResponseDto;
+import com.fu.server.dto.SectionPageDto;
 import com.fu.server.service.SectionService;
 import com.fu.server.utils.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,11 @@ public class SectionController {
     private SectionService sectionService;
 
     @GetMapping("/list")
-    public ResponseDto<PageDto> section(PageDto pageDto) {
-        sectionService.list(pageDto);
-        return ResponseDto.success(pageDto);
+    public ResponseDto<SectionPageDto> list(SectionPageDto sectionPageDto) {
+        ValidatorUtil.require(sectionPageDto.getCourseId(), "课程ID");
+        ValidatorUtil.require(sectionPageDto.getChapterId(), "大章ID");
+        sectionService.list(sectionPageDto);
+        return ResponseDto.success(sectionPageDto);
     }
 
     @PostMapping("/save")

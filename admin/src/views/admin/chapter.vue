@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h3>{{course.name}}</h3>
+    <h4 class="lighter">
+      <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
+      <router-link to="/admin/business/course" class="pink"> {{course.name}} </router-link>
+    </h4>
+    <hr>
     <p>
       <router-link to="/admin/business/course" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-arrow-left"></i>
@@ -23,7 +27,6 @@
       <tr>
         <th>ID</th>
         <th>名称</th>
-        <th>课程ID</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -32,40 +35,17 @@
       <tr v-for="chapter in chapters">
         <td>{{ chapter.id }}</td>
         <td>{{ chapter.name }}</td>
-        <td>{{ chapter.courseId }}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-info" v-on:click="edit(chapter)">
-              <i class="ace-icon fa fa-pencil bigger-120"></i>
+            <button v-on:click="toSection(chapter)" class="btn btn-white btn-xs btn-info btn-round">
+              小节
+            </button>&nbsp;
+            <button v-on:click="edit(chapter)" class="btn btn-white btn-xs btn-info btn-round">
+              编辑
+            </button>&nbsp;
+            <button v-on:click="del(chapter.id)" class="btn btn-white btn-xs btn-warning btn-round">
+              删除
             </button>
-            <button class="btn btn-xs btn-danger" v-on:click="del(chapter.id)">
-              <i class="ace-icon fa fa-trash-o bigger-120"></i>
-            </button>
-          </div>
-
-          <div class="hidden-md hidden-lg">
-            <div class="inline pos-rel">
-              <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-              </button>
-
-              <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                <li>
-                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(chapter)">
-                     <span class="green">
-                       <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                     </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" v-on:click="del(chapter.id)">
-                     <span class="red">
-                       <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                     </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
         </td>
       </tr>
@@ -211,6 +191,14 @@ export default {
           }
         })
       });
+    },
+    /**
+     * 点击【小节】
+     */
+    toSection(chapter) {
+      let _this = this;
+      SessionStorage.set("chapter", chapter);
+      _this.$router.push("/admin/business/section");
     }
   }
 }

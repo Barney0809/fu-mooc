@@ -18,7 +18,7 @@ public class ChapterController {
     private ChapterService chapterService;
 
     @GetMapping("/list")
-    public ResponseDto<ChapterPageDto> chapter(ChapterPageDto chapterPageDto) {
+    public ResponseDto<ChapterPageDto> list(ChapterPageDto chapterPageDto) {
         chapterService.list(chapterPageDto);
         return ResponseDto.success(chapterPageDto);
     }
