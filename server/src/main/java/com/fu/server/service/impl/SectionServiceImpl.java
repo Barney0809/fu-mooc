@@ -6,6 +6,7 @@ import com.fu.server.dto.SectionDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.dto.SectionPageDto;
 import com.fu.server.mapper.SectionMapper;
+import com.fu.server.service.CourseService;
 import com.fu.server.service.SectionService;
 import com.fu.server.utils.CopyUtil;
 import com.fu.server.utils.UuidUtil;
@@ -22,6 +23,9 @@ import java.util.Date;
 public class SectionServiceImpl implements SectionService {
     @Resource
     private SectionMapper sectionMapper;
+
+    @Resource
+    private CourseService courseService;
 
     /**
      * 列表查询
@@ -58,6 +62,7 @@ public class SectionServiceImpl implements SectionService {
         else {
             update(section);
         }
+        courseService.updateTime(sectionDto.getCourseId());
     }
 
     /**

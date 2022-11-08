@@ -7,4 +7,5 @@ public interface CourseService {
     void list(PageDto pageDto);
     void save(CourseDto courseDto);
     void delete(String id);
+    void updateTime(String courseId);
 }

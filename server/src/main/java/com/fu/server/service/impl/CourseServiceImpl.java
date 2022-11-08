@@ -5,12 +5,15 @@ import com.fu.server.domain.CourseExample;
 import com.fu.server.dto.CourseDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.mapper.CourseMapper;
+import com.fu.server.mapper.my.MyCourseMapper;
 import com.fu.server.service.CourseService;
 import com.fu.server.utils.CopyUtil;
 import com.fu.server.utils.UuidUtil;
 import com.fu.server.utils.ValidatorUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
@@ -19,8 +22,12 @@ import java.util.Date;
 
 @Service
 public class CourseServiceImpl implements CourseService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CourseService.class);
     @Resource
     private CourseMapper courseMapper;
+    @Resource
+    private MyCourseMapper myCourseMapper;
 
     /**
      * 列表查询
@@ -58,6 +65,17 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public void delete(String id) {
         courseMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 更新课程时长
+     * @param courseId
+     * @return
+     */
+    @Override
+    public void updateTime(String courseId) {
+        LOG.info("更新课程时长：{}", courseId);
+        myCourseMapper.updateTime(courseId);
     }
 
     /**
