@@ -14,6 +14,7 @@ import com.fu.server.utils.ValidatorUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.List;
@@ -53,6 +54,7 @@ public class SectionServiceImpl implements SectionService {
      * 保存，id有值时更新，无值时新增
      */
     @Override
+    @Transactional
     public void save(SectionDto sectionDto) {
 
         Section section = CopyUtil.copy(sectionDto,Section.class);
