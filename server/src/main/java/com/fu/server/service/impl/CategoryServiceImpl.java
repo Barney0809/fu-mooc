@@ -59,6 +59,33 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.deleteByPrimaryKey(id);
     }
 
+    @Override
+    public List<CategoryDto> categoryList() {
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
+        categoryExample.createCriteria().andParentEqualTo("00000000");
+        List<CategoryDto> parentCategoryList = CopyUtil.copyList(categoryMapper.selectByExample(categoryExample), CategoryDto.class);
+        subCategoryList(parentCategoryList);
+        return parentCategoryList;
+    }
+
+    /**
+     *
+     */
+    private void subCategoryList(List<CategoryDto> categoryList){
+        for (CategoryDto category : categoryList) {
+            CategoryExample categoryExample = new CategoryExample();
+            categoryExample.createCriteria().andParentEqualTo(category.getId());
+            List<Category> list = categoryMapper.selectByExample(categoryExample);
+            if(list.size() == 0){
+                continue;
+            }
+            List<CategoryDto> childCategoryList = CopyUtil.copyList(list, CategoryDto.class);
+            category.setChildCategoryList(childCategoryList);
+            subCategoryList(childCategoryList);
+        }
+    }
+
     /**
      * 新增
      */

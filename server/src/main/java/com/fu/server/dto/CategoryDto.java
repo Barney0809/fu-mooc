@@ -1,6 +1,8 @@
 package com.fu.server.dto;
 
 
+import java.util.List;
+
 public class CategoryDto {
 
     /**
@@ -22,6 +24,11 @@ public class CategoryDto {
      * 顺序
      */
     private Integer sort;
+
+    /**
+     * 子分类
+     */
+    private List<CategoryDto> childCategoryList;
 
     public String getId() {
         return id;
@@ -55,19 +62,22 @@ public class CategoryDto {
         this.sort = sort;
     }
 
+    public List<CategoryDto> getChildCategoryList() {
+        return childCategoryList;
+    }
+
+    public void setChildCategoryList(List<CategoryDto> childCategoryList) {
+        this.childCategoryList = childCategoryList;
+    }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", parent=").append(parent);
-        sb.append(", name=").append(name);
-        sb.append(", sort=").append(sort);
-        sb.append("]");
-        return sb.toString();
+        return "CategoryDto{" +
+                "id='" + id + '\'' +
+                ", parent='" + parent + '\'' +
+                ", name='" + name + '\'' +
+                ", sort=" + sort +
+                ", childCategoryList=" + childCategoryList +
+                '}';
     }
-
 }

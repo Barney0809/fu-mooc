@@ -1,72 +1,136 @@
 <template>
   <div>
-    <p>
-      <button v-on:click="add()" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-edit"></i>
-        新增
-      </button>
-      &nbsp;
-      <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-refresh"></i>
-        刷新
-      </button>
-    </p>
-    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
-    <table id="simple-table" class="table  table-bordered table-hover">
-      <thead>
-      <tr>
-                <th>id</th>
-        <th>父id</th>
-        <th>名称</th>
-        <th>顺序</th>
-        <th>操作</th>
-      </tr>
-      </thead>
+    <div class="row">
+      <div class="col-md-6">
+        <p>
+          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+            <i class="ace-icon fa fa-edit"></i>
+            新增
+          </button>
+          &nbsp;
+          <button v-on:click="categoryList()" class="btn btn-white btn-default btn-round">
+            <i class="ace-icon fa fa-refresh"></i>
+            刷新
+          </button>
+        </p>
+        <table id="category-table" class="table  table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>名称</th>
+            <th>顺序</th>
+            <th>操作</th>
+          </tr>
+          </thead>
 
-      <tbody>
-      <tr v-for="category in categorys">
-        <td>{{category.id}}</td>
-        <td>{{category.parent}}</td>
-        <td>{{category.name}}</td>
-        <td>{{category.sort}}</td>
-        <td>
-          <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-info" v-on:click="edit(category)">
-              <i class="ace-icon fa fa-pencil bigger-120"></i>
-            </button>
-            <button class="btn btn-xs btn-danger" v-on:click="del(category.id)">
-              <i class="ace-icon fa fa-trash-o bigger-120"></i>
-            </button>
-          </div>
+          <tbody>
+          <tr v-for="category in categories" v-on:click="subCategoryList(category)"
+              v-bind:class="{'active' : category.id === active.id}">
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td>{{category.sort}}</td>
+            <td>
+              <div class="hidden-sm hidden-xs btn-group">
+                <button class="btn btn-xs btn-info" v-on:click="edit(category)">
+                  <i class="ace-icon fa fa-pencil bigger-120"></i>
+                </button>
+                <button class="btn btn-xs btn-danger" v-on:click="del(category.id)">
+                  <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                </button>
+              </div>
 
-          <div class="hidden-md hidden-lg">
-            <div class="inline pos-rel">
-              <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-              </button>
+              <div class="hidden-md hidden-lg">
+                <div class="inline pos-rel">
+                  <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                    <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+                  </button>
 
-              <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                <li>
-                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(category)">
+                  <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                    <li>
+                      <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(category)">
                      <span class="green">
                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                      </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" v-on:click="del(category.id)">
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" v-on:click="del(category.id)">
                      <span class="red">
                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
                      </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <p>
+          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+            <i class="ace-icon fa fa-edit"></i>
+            新增
+          </button>
+        </p>
+        <table id="child-table" class="table  table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>名称</th>
+            <th>顺序</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr v-for="category in childCategoryList">
+            <td>{{category.id}}</td>
+            <td>{{category.name}}</td>
+            <td>{{category.sort}}</td>
+            <td>
+              <div class="hidden-sm hidden-xs btn-group">
+                <button class="btn btn-xs btn-info" v-on:click="edit(category)">
+                  <i class="ace-icon fa fa-pencil bigger-120"></i>
+                </button>
+                <button class="btn btn-xs btn-danger" v-on:click="del(category.id)">
+                  <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                </button>
+              </div>
+
+              <div class="hidden-md hidden-lg">
+                <div class="inline pos-rel">
+                  <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                    <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+                  </button>
+
+                  <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                    <li>
+                      <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(category)">
+                     <span class="green">
+                       <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                     </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" v-on:click="del(category.id)">
+                     <span class="red">
+                       <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                     </span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -115,14 +179,15 @@ export default {
   name: "business-category",
   data: function () {
     return {
-      categorys: [],
+      categories: [],
       category: {},
+      childCategoryList: [],
+      active: {}
     }
   },
   mounted: function () {
     let _this = this;
-    _this.$refs.pagination.size = 10;
-    _this.list(1);
+    _this.categoryList();
     // sidebar激活样式方法一
     // this.$parent.activeSidebar("business-category-sidebar");
   },
@@ -159,8 +224,21 @@ export default {
       }).then((response) => {
         Loading.hide();
         console.log("查询商品分类 列表结果：", response);
-        _this.categorys = response.data.data.list;
+        _this.categories = response.data.data.list;
         _this.$refs.pagination.render(page, response.data.data.total);
+      })
+    },
+
+    /**
+     * 列表查询
+     */
+    categoryList() {
+      let _this = this;
+      Loading.show();
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/category/categoryList').then((response) => {
+        Loading.hide();
+        console.log("查询商品分类 列表结果：", response);
+        _this.categories = response.data.data;
       })
     },
 
@@ -185,7 +263,7 @@ export default {
         console.log("保存商品分类 列表结果：", response);
         if (response.data.code === "0") {
           $("#form-modal").modal("hide");
-          _this.list(1);
+          _this.categoryList();
           Toast.success("保存成功！");
         } else {
           Toast.warning(response.data.message);
@@ -204,12 +282,25 @@ export default {
           Loading.hide();
           console.log("删除商品分类 列表结果：", response);
           if (response.data.code === "0") {
-            _this.list(1);
+            _this.categoryList();
             Toast.success("删除成功！")
           }
         })
       });
+    },
+
+    subCategoryList(category){
+      let _this = this;
+      console.log(category.name + "子类为" , category.childCategoryList)
+      _this.childCategoryList = category.childCategoryList;
+      _this.active = category;
     }
   }
 }
 </script>
+
+<style scoped>
+.active td {
+  background-color: #a4ccff !important;
+}
+</style>

@@ -7,6 +7,7 @@ import com.fu.server.service.CategoryService;
 import com.fu.server.utils.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/category")
@@ -21,6 +22,12 @@ public class CategoryController {
     public ResponseDto<PageDto> list(PageDto pageDto) {
         categoryService.list(pageDto);
         return ResponseDto.success(pageDto);
+    }
+
+    @GetMapping("/categoryList")
+    public ResponseDto<List<CategoryDto>> categoryList(){
+        List<CategoryDto> categoryList = categoryService.categoryList();
+        return ResponseDto.success(categoryList);
     }
 
     @PostMapping("/save")
