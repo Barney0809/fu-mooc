@@ -173,11 +173,13 @@ export default {
     let course = SessionStorage.get("course") || {};
     let chapter = SessionStorage.get("chapter") || {};
     if (Tool.isEmpty(course) || Tool.isEmpty(chapter)) {
-      _this.$router.push("/welcome");
+      _this.$router.push("/admin/welcome");
+    }else {
+      _this.course = course;
+      _this.chapter = chapter;
+      _this.list(1);
     }
-    _this.course = course;
-    _this.chapter = chapter;
-    _this.list(1);
+
     // sidebar激活样式方法一
     // this.$parent.activeSidebar("business-section-sidebar");
   },
