@@ -63,13 +63,13 @@ public class CourseServiceImpl implements CourseService {
 
         Course course = CopyUtil.copy(courseDto,Course.class);
         if(StringUtils.isEmpty(courseDto.getId())){
-            courseDto.setId(insert(course));
+            insert(course);
         }
         else {
             update(course);
         }
         // 批量保存课程分类
-        courseCategoryService.saveBatch(courseDto.getId(), courseDto.getCategories());
+        courseCategoryService.saveBatch(course.getId(), courseDto.getCategories());
 
     }
 
@@ -143,13 +143,12 @@ public class CourseServiceImpl implements CourseService {
     /**
      * 新增
      */
-    private String insert(Course course) {
+    private void insert(Course course) {
         Date now = new Date();
         course.setCreatedAt(now);
         course.setUpdatedAt(now);
         course.setId(UuidUtil.getShortUuid());
         courseMapper.insert(course);
-        return course.getId();
     }
     /**
      * 更新

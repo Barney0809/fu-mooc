@@ -15,7 +15,7 @@ import java.util.List;
 public class CourseController {
     private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
 
-    public static final String BUSINESS_NAME = "";
+    public static final String BUSINESS_NAME = "课程";
 
     @Resource
     private CourseService courseService;
