@@ -12,6 +12,7 @@ import com.fu.server.utils.ValidatorUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.List;
@@ -54,9 +55,24 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 删除
      */
-    @Override
+    @Transactional
     public void delete(String id) {
+        deleteChildren(id);
         categoryMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 删除子分类
+     * @param id
+     */
+    private void deleteChildren(String id) {
+        Category category = categoryMapper.selectByPrimaryKey(id);
+        if ("00000000".equals(category.getParent())) {
+            // 如果是一级分类，需要删除其下的二级分类
+            CategoryExample example = new CategoryExample();
+            example.createCriteria().andParentEqualTo(category.getId());
+            categoryMapper.deleteByExample(example);
+        }
     }
 
     @Override
@@ -75,6 +91,7 @@ public class CategoryServiceImpl implements CategoryService {
     private void subCategoryList(List<CategoryDto> categoryList){
         for (CategoryDto category : categoryList) {
             CategoryExample categoryExample = new CategoryExample();
+            categoryExample.setOrderByClause("sort asc");
             categoryExample.createCriteria().andParentEqualTo(category.getId());
             List<Category> list = categoryMapper.selectByExample(categoryExample);
             if(list.size() == 0){

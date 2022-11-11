@@ -3,9 +3,9 @@
     <div class="row">
       <div class="col-md-6">
         <p>
-          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+          <button v-on:click="add1()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增一级
           </button>
           &nbsp;
           <button v-on:click="categoryList()" class="btn btn-white btn-default btn-round">
@@ -34,7 +34,7 @@
                 <button class="btn btn-xs btn-info" v-on:click="edit(category)">
                   <i class="ace-icon fa fa-pencil bigger-120"></i>
                 </button>
-                <button class="btn btn-xs btn-danger" v-on:click="del(category.id)">
+                <button class="btn btn-xs btn-danger" v-on:click="del(category)">
                   <i class="ace-icon fa fa-trash-o bigger-120"></i>
                 </button>
               </div>
@@ -54,7 +54,7 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" v-on:click="del(category.id)">
+                      <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" v-on:click="del(category)">
                      <span class="red">
                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
                      </span>
@@ -70,9 +70,9 @@
       </div>
       <div class="col-md-6">
         <p>
-          <button v-on:click="add()" class="btn btn-white btn-default btn-round">
+          <button v-on:click="add2()" class="btn btn-white btn-default btn-round">
             <i class="ace-icon fa fa-edit"></i>
-            新增
+            新增二级
           </button>
         </p>
         <table id="child-table" class="table  table-bordered table-hover">
@@ -142,9 +142,9 @@
           <div class="modal-body">
             <form class="form-horizontal">
               <div class="form-group">
-                <label class="col-sm-2 control-label">父id</label>
+                <label class="col-sm-2 control-label">父分类</label>
                 <div class="col-sm-10">
-                  <input v-model="category.parent" class="form-control">
+                  <p class="form-control-static">{{active.name || "无"}}</p>
                 </div>
               </div>
               <div class="form-group">
@@ -193,12 +193,31 @@ export default {
   },
   methods: {
     /**
-     * 点击【新增】
+     * 点击【新增一级】
      */
-    add() {
+    add1() {
       let _this = this;
-      _this.category = {};
+      _this.active = {};
+      _this.level2 = [];
+      _this.category = {
+        parent: "00000000"
+      };
       $("#form-modal").modal("show");
+    },
+
+    /**
+     * 点击【新增二级】
+     */
+    add2() {
+      let _this = this;
+      if (Tool.isEmpty(_this.active)) {
+        Toast.warning("请先点击一级分类");
+        return;
+      }
+      _this.category = {
+        parent: _this.active.id
+      };
+      $(".modal").modal("show");
     },
 
     /**
@@ -239,6 +258,13 @@ export default {
         Loading.hide();
         console.log("查询商品分类 列表结果：", response);
         _this.categories = response.data.data;
+        if (Tool.isNotEmpty(_this.active)) {
+          for(let i = 0 ;i < _this.categories.length; i++){
+            if( _this.categories[i].id === _this.active.id){
+              _this.childCategoryList = _this.categories[i].childCategoryList;
+            }
+          }
+        }
       })
     },
 
@@ -274,14 +300,17 @@ export default {
     /**
      * 点击【删除】
      */
-    del(id) {
+    del(category) {
       let _this = this;
       Confirm.show("删除后将不可恢复，确认删除吗？",function (){
         Loading.show();
-        _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/category/delete/' + id).then((response) => {
+        _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/category/delete/' + category.id).then((response) => {
           Loading.hide();
           console.log("删除商品分类 列表结果：", response);
           if (response.data.code === "0") {
+            if(category.parent === "00000000"){
+              _this.childCategoryList = [];
+            }
             _this.categoryList();
             Toast.success("删除成功！")
           }
