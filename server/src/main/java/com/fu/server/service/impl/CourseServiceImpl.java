@@ -6,6 +6,7 @@ import com.fu.server.dto.CourseDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.mapper.CourseMapper;
 import com.fu.server.mapper.my.MyCourseMapper;
+import com.fu.server.service.CourseCategoryService;
 import com.fu.server.service.CourseService;
 import com.fu.server.utils.CopyUtil;
 import com.fu.server.utils.UuidUtil;
@@ -15,6 +16,7 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.List;
@@ -28,6 +30,9 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper courseMapper;
     @Resource
     private MyCourseMapper myCourseMapper;
+    @Resource
+    private CourseCategoryService courseCategoryService;
+
 
     /**
      * 列表查询
@@ -48,15 +53,19 @@ public class CourseServiceImpl implements CourseService {
      * 保存，id有值时更新，无值时新增
      */
     @Override
+    @Transactional
     public void save(CourseDto courseDto) {
 
         Course course = CopyUtil.copy(courseDto,Course.class);
         if(StringUtils.isEmpty(courseDto.getId())){
-            insert(course);
+            courseDto.setId(insert(course));
         }
         else {
             update(course);
         }
+        // 批量保存课程分类
+        courseCategoryService.saveBatch(courseDto.getId(), courseDto.getCategories());
+
     }
 
     /**
@@ -81,12 +90,13 @@ public class CourseServiceImpl implements CourseService {
     /**
      * 新增
      */
-    private void insert(Course course) {
+    private String insert(Course course) {
         Date now = new Date();
         course.setCreatedAt(now);
         course.setUpdatedAt(now);
         course.setId(UuidUtil.getShortUuid());
         courseMapper.insert(course);
+        return course.getId();
     }
     /**
      * 更新

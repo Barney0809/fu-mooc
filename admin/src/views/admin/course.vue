@@ -173,6 +173,7 @@ export default {
       COURSE_CHARGE: COURSE_CHARGE,
       COURSE_STATUS: COURSE_STATUS,
       categories: [],
+      tree: {}
     }
   },
   mounted: function () {
@@ -190,6 +191,7 @@ export default {
     add() {
       let _this = this;
       _this.course = {};
+      _this.tree.checkAllNodes(false);
       $("#form-modal").modal("show");
     },
 
@@ -199,6 +201,7 @@ export default {
     edit(course) {
       let _this = this;
       _this.course = $.extend({},course);
+      _this.listCategory(course.id);
       $("#form-modal").modal("show");
     },
 
@@ -236,6 +239,12 @@ export default {
         ) {
           return;
         }
+      let categories = _this.tree.getCheckedNodes();
+      if (Tool.isEmpty(categories)) {
+        Toast.warning("请选择分类！");
+        return;
+      }
+      _this.course.categories = categories;
 
       Loading.show();
       _this.$axios.post(process.env.VUE_APP_SERVER + '/business/admin/course/save', _this.course).then((response) => {
@@ -305,8 +314,28 @@ export default {
 
       let zNodes = _this.categorys;
 
-      $.fn.zTree.init($("#tree"), setting, zNodes);
-    }
+      _this.tree = $.fn.zTree.init($("#tree"), setting, zNodes);
+    },
+    /**
+     * 查找课程下所有分类
+     * @param courseId
+     */
+    listCategory(courseId) {
+      let _this = this;
+      Loading.show();
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/course/list-category/' + courseId).then((response)=>{
+        Loading.hide();
+        console.log("查找课程下所有分类结果：", response);
+        let categories = response.data.data;
+
+        // 勾选查询到的分类
+        _this.tree.checkAllNodes(false);
+        for (let i = 0; i < categories.length; i++) {
+          let node = _this.tree.getNodeByParam("id", categories[i].categoryId);
+          _this.tree.checkNode(node, true);
+        }
+      })
+    },
   }
 }
 </script>
