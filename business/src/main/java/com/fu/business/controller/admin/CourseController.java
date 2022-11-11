@@ -1,9 +1,6 @@
 package com.fu.business.controller.admin;
 
-import com.fu.server.dto.CourseCategoryDto;
-import com.fu.server.dto.CourseDto;
-import com.fu.server.dto.PageDto;
-import com.fu.server.dto.ResponseDto;
+import com.fu.server.dto.*;
 import com.fu.server.service.CourseCategoryService;
 import com.fu.server.service.CourseService;
 import com.fu.server.utils.ValidatorUtil;
@@ -55,5 +52,17 @@ public class CourseController {
     public ResponseDto listCategory(@PathVariable(value = "courseId") String courseId) {
         List<CourseCategoryDto> dtoList = courseCategoryService.listByCourse(courseId);
         return ResponseDto.success(dtoList);
+    }
+
+    @GetMapping("/find-content/{id}")
+    public ResponseDto findContent(@PathVariable String id) {
+        CourseContentDto contentDto = courseService.findContent(id);
+        return ResponseDto.success(contentDto);
+    }
+
+    @PostMapping("/save-content")
+    public ResponseDto saveContent(@RequestBody CourseContentDto contentDto) {
+        courseService.saveContent(contentDto);
+        return ResponseDto.success();
     }
 }
