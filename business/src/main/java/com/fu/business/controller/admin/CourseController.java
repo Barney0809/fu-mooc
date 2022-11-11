@@ -4,6 +4,8 @@ import com.fu.server.dto.*;
 import com.fu.server.service.CourseCategoryService;
 import com.fu.server.service.CourseService;
 import com.fu.server.utils.ValidatorUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/course")
 public class CourseController {
+    private static final Logger LOG = LoggerFactory.getLogger(CourseController.class);
 
     public static final String BUSINESS_NAME = "";
 
@@ -63,6 +66,13 @@ public class CourseController {
     @PostMapping("/save-content")
     public ResponseDto saveContent(@RequestBody CourseContentDto contentDto) {
         courseService.saveContent(contentDto);
+        return ResponseDto.success();
+    }
+
+    @RequestMapping(value = "/sort")
+    public ResponseDto sort(@RequestBody SortDto sortDto) {
+        LOG.info("更新排序");
+        courseService.sort(sortDto);
         return ResponseDto.success();
     }
 }

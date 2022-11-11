@@ -45,9 +45,12 @@
             <p>
               <button v-on:click="toChapter(course)" class="btn btn-white btn-xs btn-info btn-round">
                 大章
-              </button>&nbsp;
+              </button>&nbsp;&nbsp;
               <button v-on:click="editContent(course)" class="btn btn-white btn-xs btn-info btn-round">
                 内容
+              </button>&nbsp;
+              <button v-on:click="openSortModal(course)" class="btn btn-white btn-xs btn-info btn-round">
+                排序
               </button>&nbsp;
               <button v-on:click="edit(course)" class="btn btn-white btn-xs btn-info btn-round">
                 编辑
@@ -141,7 +144,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">顺序</label>
                 <div class="col-sm-10">
-                  <input v-model="course.sort" class="form-control">
+                  <input v-model="course.sort" class="form-control" disabled>
                 </div>
               </div>
               <div class="form-group">
@@ -193,6 +196,46 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    <div id="course-sort-modal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">排序</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="control-label col-lg-3">
+                  当前排序
+                </label>
+                <div class="col-lg-9">
+                  <input class="form-control" v-model="sort.oldSort" name="oldSort" disabled>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-lg-3">
+                  新排序
+                </label>
+                <div class="col-lg-9">
+                  <input class="form-control" v-model="sort.newSort" name="newSort">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-white btn-default btn-round" data-dismiss="modal">
+              <i class="ace-icon fa fa-times"></i>
+              取消
+            </button>
+            <button type="button" class="btn btn-white btn-info btn-round" v-on:click="updateSort()">
+              <i class="ace-icon fa fa-plus blue"></i>
+              更新排序
+            </button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
   </div>
 </template>
 
@@ -212,6 +255,11 @@ export default {
       categories: [],
       tree: {},
       saveContentLabel: "",
+      sort: {
+        id: "",
+        oldSort: 0,
+        newSort: 0
+      }
     }
   },
   mounted: function () {
@@ -228,7 +276,9 @@ export default {
      */
     add() {
       let _this = this;
-      _this.course = {};
+      _this.course = {
+        sort: _this.$refs.pagination.total + 1
+      };
       _this.tree.checkAllNodes(false);
       $("#form-modal").modal("show");
     },
@@ -432,6 +482,36 @@ export default {
 
         } else {
           Toast.warning(response.data.message);
+        }
+      });
+    },
+    openSortModal(course) {
+      let _this = this;
+      _this.sort = {
+        id: course.id,
+        oldSort: course.sort,
+        newSort: course.sort
+      };
+      $("#course-sort-modal").modal("show");
+    },
+
+    /**
+     * 排序
+     */
+    updateSort() {
+      let _this = this;
+      if (_this.sort.newSort === _this.sort.oldSort) {
+        Toast.warning("排序没有变化");
+        return;
+      }
+      Loading.show();
+      _this.$axios.post(process.env.VUE_APP_SERVER + "/business/admin/course/sort", _this.sort).then((response) => {
+        if (response.data.code === "0") {
+          Toast.success("更新排序成功");
+          $("#course-sort-modal").modal("hide");
+          _this.list(1);
+        } else {
+          Toast.error("更新排序失败");
         }
       });
     }

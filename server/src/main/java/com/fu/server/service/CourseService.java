@@ -3,6 +3,7 @@ package com.fu.server.service;
 import com.fu.server.dto.CourseContentDto;
 import com.fu.server.dto.CourseDto;
 import com.fu.server.dto.PageDto;
+import com.fu.server.dto.SortDto;
 
 public interface CourseService {
     void list(PageDto pageDto);
@@ -11,4 +12,5 @@ public interface CourseService {
     void updateTime(String courseId);
     CourseContentDto findContent(String id);
     int saveContent(CourseContentDto contentDto);
+    void sort(SortDto sortDto);
 }
