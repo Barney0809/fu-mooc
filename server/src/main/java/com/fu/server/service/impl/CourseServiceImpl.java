@@ -77,7 +77,11 @@ public class CourseServiceImpl implements CourseService {
      * 删除
      */
     @Override
+    @Transactional
     public void delete(String id) {
+        courseCategoryService.delete(id);
+        Course course = courseMapper.selectByPrimaryKey(id);
+        myCourseMapper.moveSortsByDelete(course);
         courseMapper.deleteByPrimaryKey(id);
     }
 

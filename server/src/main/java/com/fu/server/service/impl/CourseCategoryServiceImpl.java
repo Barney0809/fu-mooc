@@ -55,8 +55,10 @@ public class CourseCategoryServiceImpl implements CourseCategoryService {
      * 删除
      */
     @Override
-    public void delete(String id) {
-        courseCategoryMapper.deleteByPrimaryKey(id);
+    public void delete(String courseId) {
+        CourseCategoryExample example = new CourseCategoryExample();
+        example.createCriteria().andCourseIdEqualTo(courseId);
+        courseCategoryMapper.deleteByExample(example);
     }
 
     /**

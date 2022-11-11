@@ -23,4 +23,10 @@
         ]]>
     </update>
 
+    <update id="moveSortsByDelete" parameterType="com.fu.server.domain.Course">
+        <![CDATA[
+        update course set `sort`= (`sort`-1) where `sort` >= #{sort} and id != #{id}
+        ]]>
+    </update>
+
 </mapper>

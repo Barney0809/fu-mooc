@@ -1,5 +1,6 @@
 package com.fu.server.mapper.my;
 
+import com.fu.server.domain.Course;
 import com.fu.server.dto.SortDto;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,4 +12,6 @@ public interface MyCourseMapper {
     int moveSortsBackward(SortDto sortDto);
 
     int moveSortsForward(SortDto sortDto);
+
+    int moveSortsByDelete(Course course);
 }
