@@ -423,7 +423,6 @@
                   <i class="menu-icon fa fa-caret-right"></i>
                   分类管理
                 </router-link>
-
                 <b class="arrow"></b>
               </li>
               <li class="" id="business-course-sidebar">
@@ -431,7 +430,13 @@
                   <i class="menu-icon fa fa-caret-right"></i>
                   课程管理
                 </router-link>
-
+                <b class="arrow"></b>
+              </li>
+              <li class="" id="business-teacher-sidebar">
+                <router-link to="/admin/business/teacher">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  讲师管理
+                </router-link>
                 <b class="arrow"></b>
               </li>
             </ul>
