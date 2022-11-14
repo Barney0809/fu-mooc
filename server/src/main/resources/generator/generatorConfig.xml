@@ -60,7 +60,9 @@
 <!--    <table tableName="category" domainObjectName="Category"/>-->
 <!--    <table tableName="course_category" domainObjectName="CourseCategory"/>-->
 <!--    <table tableName="course_content" domainObjectName="CourseContent"/>-->
-    <table tableName="teacher" domainObjectName="Teacher"/>
+<!--    <table tableName="teacher" domainObjectName="Teacher"/>-->
+    <table tableName="file" domainObjectName="File"/>
+
 
   </context>
 </generatorConfiguration>
