@@ -1,6 +1,8 @@
 package com.fu.file.controller;
 
+import com.fu.server.dto.FileDto;
 import com.fu.server.dto.ResponseDto;
+import com.fu.server.service.FileService;
 import com.fu.server.utils.UuidUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,6 +23,9 @@ public class UploadController {
     private static final Logger LOG = LoggerFactory.getLogger(UploadController.class);
 
     public static final String BUSINESS_NAME = "文件上传";
+
+    @Resource
+    private FileService fileService;
 
     @Value("${file.domain}")
     private String FILE_DOMAIN;
@@ -34,13 +40,24 @@ public class UploadController {
         LOG.info(String.valueOf(file.getSize()));
 
         // 保存文件到本地
-        String fileName = file.getOriginalFilename();
         String key = UuidUtil.getShortUuid();
-        String fullPath = FILE_PATH + "teacher/" + key + "-" + fileName;
+        String fileName = file.getOriginalFilename();
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+        String path = "teacher/" + key + "." + suffix;
+        String fullPath = FILE_PATH + path;
         File dest = new File(fullPath);
         file.transferTo(dest);
         LOG.info(dest.getAbsolutePath());
-        String url = FILE_DOMAIN + "f/teacher/" + key + "-" + fileName;
+
+        LOG.info("保存文件记录开始");
+        FileDto fileDto = new FileDto();
+        fileDto.setPath(path);
+        fileDto.setName(fileName);
+        fileDto.setSize(Math.toIntExact(file.getSize()));
+        fileDto.setSuffix(suffix);
+        fileDto.setUse("");
+        fileService.save(fileDto);
+        String url = FILE_DOMAIN + path;
         return ResponseDto.success(url);
     }
 }
