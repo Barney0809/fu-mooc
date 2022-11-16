@@ -111,7 +111,16 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">视频</label>
                 <div class="col-sm-10">
-                  <input v-model="section.video" class="form-control">
+                  <file v-bind:id="'video-upload'"
+                        v-bind:text="'上传视频'"
+                        v-bind:suffixs="['mp4']"
+                        v-bind:use="FILE_USE.COURSE.key"
+                        v-bind:after-upload="afterUpload"></file>
+                  <div v-show="section.video" class="row">
+                    <div class="col-md-9">
+                      <video v-bind:src="section.video" controls="controls"></video>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
@@ -154,15 +163,17 @@
 
 <script>
 import Pagination from "@/components/pagination";
+import File from "@/components/file";
 
 export default {
-  components: {Pagination},
+  components: {Pagination,File},
   name: "business-section",
   data: function () {
     return {
       sections: [],
       section: {},
       SECTION_CHARGE: SECTION_CHARGE,
+      FILE_USE: FILE_USE,
       course: {},
       chapter: {},
     }
@@ -272,7 +283,21 @@ export default {
           }
         })
       });
+    },
+
+    afterUpload(response) {
+      let _this = this;
+      _this.section.video = response.data.path;
+      _this.$forceUpdate();
     }
   }
 }
 </script>
+
+<style scoped>
+video {
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+</style>
