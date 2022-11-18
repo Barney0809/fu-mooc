@@ -93,7 +93,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">封面</label>
                 <div class="col-sm-10">
-                  <file v-bind:id="'image-upload'"
+                  <file v-bind:input-id="'image-upload'"
                         v-bind:text="'上传封面'"
                         v-bind:suffixs="['jpg', 'jpeg', 'png']"
                         v-bind:use="FILE_USE.COURSE.key"
@@ -188,7 +188,7 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div id="course-content-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="course-content-modal" class="modal fade" tabindex="-1" role="dialog"  style="overflow:auto;">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -196,6 +196,35 @@
             <h4 class="modal-title">内容编辑</h4>
           </div>
           <div class="modal-body">
+            <file v-bind:input-id="'content-file-upload'"
+                  v-bind:text="'上传文件'"
+                  v-bind:suffixs="['jpg', 'jpeg', 'png', 'mp4']"
+                  v-bind:use="FILE_USE.COURSE.key"
+                  v-bind:after-upload="afterUploadContentFile"></file>
+            <br>
+            <table id="file-table" class="table  table-bordered table-hover">
+              <thead>
+              <tr>
+                <th>名称</th>
+                <th>地址</th>
+                <th>大小</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(f, i) in files" v-bind:key="f.id">
+                <td>{{f.name}}</td>
+                <td>{{f.url}}</td>
+                <td>{{f.size | formatFileSize}}</td>
+                <td>
+                  <button v-on:click="delFile(f)" class="btn btn-white btn-xs btn-warning btn-round">
+                    <i class="ace-icon fa fa-times red2"></i>
+                    删除
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
             <form class="form-horizontal">
               <div class="form-group">
                 <div class="col-lg-12">
@@ -288,7 +317,9 @@ export default {
         oldSort: 0,
         newSort: 0
       },
-      teachers: []
+      teachers: [],
+      files: [],
+
     }
   },
   mounted: function () {
@@ -477,6 +508,10 @@ export default {
       // 先清空历史文本
       $("#content").summernote('code', '');
       _this.saveContentLabel = "";
+
+      // 加载内容文件列表
+      _this.listContentFiles();
+
       Loading.show();
       _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/course/find-content/' + id).then((response)=>{
         Loading.hide();
@@ -557,7 +592,52 @@ export default {
       let _this = this;
       _this.course.image = response.data.path;
       _this.$forceUpdate();
-    }
+    },
+
+    /**
+     * 加载内容文件列表
+     */
+    listContentFiles() {
+      let _this = this;
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/courseContentFile/list/' + _this.course.id).then((response)=>{
+        if (response.data.code === "0") {
+          _this.files = response.data.data;
+        }
+      });
+    },
+
+    /**
+     * 上传内容文件后，保存内容文件记录
+     */
+    afterUploadContentFile(response) {
+      let _this = this;
+      console.log("开始保存文件记录");
+      let file = response.data;
+      file.courseId = _this.course.id;
+      file.url = file.path;
+      _this.$axios.post(process.env.VUE_APP_SERVER + '/business/admin/courseContentFile/save', file).then((response)=>{
+        if (response.data.code === "0") {
+          Toast.success("上传文件成功");
+          _this.files.push(response.data.data);
+        }
+      });
+
+    },
+
+    /**
+     * 删除内容文件
+     */
+    delFile(f) {
+      let _this = this;
+      Confirm.show("删除课程后不可恢复，确认删除？", function () {
+        _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/courseContentFile/delete/' + f.id).then((response)=>{
+          if (response.data.code === "0") {
+            Toast.success("删除文件成功");
+            Tool.removeObj(_this.files, f);
+          }
+        });
+      });
+    },
   }
 }
 </script>
