@@ -2,7 +2,7 @@
   <div>
     <button type="button" v-on:click="selectFile()" class="btn btn-white btn-default btn-round">
       <i class="ace-icon fa fa-upload"></i>
-      {{text}}
+      {{ text }}
     </button>
     <input class="hidden" type="file" ref="file" v-on:change="uploadFile()" v-bind:id="inputId+'-input'">
   </div>
@@ -30,11 +30,10 @@ export default {
     },
   },
   data: function () {
-    return {
-    }
+    return {}
   },
   methods: {
-    uploadFile () {
+    uploadFile() {
       let _this = this;
       let formData = new window.FormData();
       let file = _this.$refs.file.files[0];
@@ -58,9 +57,9 @@ export default {
 
       // key："file"必须和后端controller参数名一致
       formData.append('file', file);
-      formData.append("use",_this.use);
+      formData.append("use", _this.use);
       Loading.show();
-      _this.$axios.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formData).then((response)=>{
+      _this.$axios.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formData).then((response) => {
         Loading.hide();
         console.log("上传文件成功：", response.data);
         _this.afterUpload(response.data);
@@ -68,7 +67,7 @@ export default {
       });
     },
 
-    selectFile () {
+    selectFile() {
       let _this = this;
       $("#" + _this.inputId + "-input").trigger("click");
     }
