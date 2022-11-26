@@ -16,8 +16,10 @@
       <div v-for="teacher in teachers" class="col-md-3 center">
         <div>
           <span class="profile-picture">
-           <img v-show="!teacher.image" class="editable img-responsive editable-click editable-empty" src="/static/image/讲师头像/未标题-1.png" v-bind:title="teacher.intro"/>
-           <img v-show="teacher.image" class="editable img-responsive editable-click editable-empty" v-bind:src="teacher.image" v-bind:title="teacher.intro"/></span>
+           <img v-show="!teacher.image" class="editable img-responsive editable-click editable-empty"
+                src="/static/image/讲师头像/未标题-1.png" v-bind:title="teacher.intro"/>
+           <img v-show="teacher.image" class="editable img-responsive editable-click editable-empty"
+                v-bind:src="teacher.image" v-bind:title="teacher.intro"/></span>
           <div class="space-4"></div>
 
           <div class="width-85 label label-info label-xlg arrowed-in arrowed-in-right">
@@ -25,7 +27,7 @@
               <a href="javascript:;" class="user-title-label dropdown-toggle" data-toggle="dropdown">
                 <i class="ace-icon fa fa-circle light-green"></i>
                 &nbsp;
-                <span class="white">{{teacher.position}}</span>
+                <span class="white">{{ teacher.position }}</span>
               </a>
             </div>
           </div>
@@ -35,7 +37,7 @@
 
         <a href="javascript:;" class="text-info bigger-110" v-bind:title="teacher.motto">
           <i class="ace-icon fa fa-user"></i>
-          {{teacher.name}}【{{teacher.nickname}}】
+          {{ teacher.name }}【{{ teacher.nickname }}】
         </a>
 
         <div class="space-6"></div>
@@ -126,7 +128,7 @@ import Pagination from "@/components/pagination";
 import File from "@/components/file";
 
 export default {
-  components: {Pagination,File},
+  components: {Pagination, File},
   name: "business-teacher",
   data: function () {
     return {
@@ -157,7 +159,7 @@ export default {
      */
     edit(teacher) {
       let _this = this;
-      _this.teacher = $.extend({},teacher);
+      _this.teacher = $.extend({}, teacher);
       $("#form-modal").modal("show");
     },
 
@@ -187,7 +189,7 @@ export default {
       let _this = this;
 
       // 保存校验
-        if (1 !== 1
+      if (1 !== 1
           || !Validator.require(_this.teacher.name, "姓名")
           || !Validator.length(_this.teacher.name, "姓名", 1, 50)
           || !Validator.length(_this.teacher.nickname, "昵称", 1, 50)
@@ -195,9 +197,9 @@ export default {
           || !Validator.length(_this.teacher.position, "职位", 1, 50)
           || !Validator.length(_this.teacher.motto, "座右铭", 1, 50)
           || !Validator.length(_this.teacher.intro, "简介", 1, 500)
-        ) {
-          return;
-        }
+      ) {
+        return;
+      }
 
       Loading.show();
       _this.$axios.post(process.env.VUE_APP_SERVER + '/business/admin/teacher/save', _this.teacher).then((response) => {
@@ -218,7 +220,7 @@ export default {
      */
     del(id) {
       let _this = this;
-      Confirm.show("删除后将不可恢复，确认删除吗？",function (){
+      Confirm.show("删除后将不可恢复，确认删除吗？", function () {
         Loading.show();
         _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/teacher/delete/' + id).then((response) => {
           Loading.hide();

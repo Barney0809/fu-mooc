@@ -2,7 +2,7 @@
   <div>
     <h4 class="lighter">
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/admin/business/course" class="pink"> {{course.name}} </router-link>
+      <router-link to="/admin/business/course" class="pink"> {{ course.name }}</router-link>
     </h4>
     <hr>
     <p>
@@ -70,7 +70,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">课程</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{course.name}}</p>
+                  <p class="form-control-static">{{ course.name }}</p>
                 </div>
               </div>
             </form>
@@ -126,7 +126,7 @@ export default {
      */
     edit(chapter) {
       let _this = this;
-      _this.chapter = $.extend({},chapter);
+      _this.chapter = $.extend({}, chapter);
       $("#form-modal").modal("show");
     },
 
@@ -181,7 +181,7 @@ export default {
      */
     del(id) {
       let _this = this;
-      Confirm.show("删除后将不可恢复，确认删除吗？",function (){
+      Confirm.show("删除后将不可恢复，确认删除吗？", function () {
         Loading.show();
         _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/chapter/delete/' + id).then((response) => {
           Loading.hide();

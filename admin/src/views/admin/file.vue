@@ -10,7 +10,7 @@
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
-                <th>id</th>
+        <th>id</th>
         <th>相对路径</th>
         <th>文件名</th>
         <th>后缀</th>
@@ -26,17 +26,17 @@
 
       <tbody>
       <tr v-for="file in files">
-        <td>{{file.id}}</td>
-        <td>{{file.path}}</td>
-        <td>{{file.name}}</td>
-        <td>{{file.suffix}}</td>
-        <td>{{file.size | formatFileSize}}</td>
-        <td>{{FILE_USE | optionKV(file.use)}}</td>
-        <td>{{file.shardIndex}}</td>
-        <td>{{file.shardSize}}</td>
-        <td>{{file.shardTotal}}</td>
-        <td>{{file.key}}</td>
-        <td>{{file.vod}}</td>
+        <td>{{ file.id }}</td>
+        <td>{{ file.path }}</td>
+        <td>{{ file.name }}</td>
+        <td>{{ file.suffix }}</td>
+        <td>{{ file.size | formatFileSize }}</td>
+        <td>{{ FILE_USE | optionKV(file.use) }}</td>
+        <td>{{ file.shardIndex }}</td>
+        <td>{{ file.shardSize }}</td>
+        <td>{{ file.shardTotal }}</td>
+        <td>{{ file.key }}</td>
+        <td>{{ file.vod }}</td>
       </tr>
       </tbody>
     </table>

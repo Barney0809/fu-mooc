@@ -26,9 +26,9 @@
           <tbody>
           <tr v-for="category in categories" v-on:click="subCategoryList(category)"
               v-bind:class="{'active' : category.id === active.id}">
-            <td>{{category.id}}</td>
-            <td>{{category.name}}</td>
-            <td>{{category.sort}}</td>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.sort }}</td>
             <td>
               <div class="hidden-sm hidden-xs btn-group">
                 <button class="btn btn-xs btn-info" v-on:click="edit(category)">
@@ -41,13 +41,14 @@
 
               <div class="hidden-md hidden-lg">
                 <div class="inline pos-rel">
-                  <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                  <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"
+                          data-position="auto">
                     <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                   </button>
 
                   <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                     <li>
-                      <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(category)">
+                      <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit" v-on:click="edit(category)">
                      <span class="green">
                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                      </span>
@@ -87,9 +88,9 @@
 
           <tbody>
           <tr v-for="category in childCategoryList">
-            <td>{{category.id}}</td>
-            <td>{{category.name}}</td>
-            <td>{{category.sort}}</td>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.sort }}</td>
             <td>
               <div class="hidden-sm hidden-xs btn-group">
                 <button class="btn btn-xs btn-info" v-on:click="edit(category)">
@@ -102,13 +103,14 @@
 
               <div class="hidden-md hidden-lg">
                 <div class="inline pos-rel">
-                  <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                  <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"
+                          data-position="auto">
                     <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                   </button>
 
                   <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                     <li>
-                      <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(category)">
+                      <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit" v-on:click="edit(category)">
                      <span class="green">
                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                      </span>
@@ -144,7 +146,7 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">父分类</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{active.name || "无"}}</p>
+                  <p class="form-control-static">{{ active.name || "无" }}</p>
                 </div>
               </div>
               <div class="form-group">
@@ -225,7 +227,7 @@ export default {
      */
     edit(category) {
       let _this = this;
-      _this.category = $.extend({},category);
+      _this.category = $.extend({}, category);
       $("#form-modal").modal("show");
     },
 
@@ -259,8 +261,8 @@ export default {
         console.log("查询商品分类 列表结果：", response);
         _this.categories = response.data.data;
         if (Tool.isNotEmpty(_this.active)) {
-          for(let i = 0 ;i < _this.categories.length; i++){
-            if( _this.categories[i].id === _this.active.id){
+          for (let i = 0; i < _this.categories.length; i++) {
+            if (_this.categories[i].id === _this.active.id) {
               _this.childCategoryList = _this.categories[i].childCategoryList;
             }
           }
@@ -275,13 +277,13 @@ export default {
       let _this = this;
 
       // 保存校验
-        if (1 !== 1
+      if (1 !== 1
           || !Validator.require(_this.category.parent, "父id")
           || !Validator.require(_this.category.name, "名称")
           || !Validator.length(_this.category.name, "名称", 1, 50)
-        ) {
-          return;
-        }
+      ) {
+        return;
+      }
 
       Loading.show();
       _this.$axios.post(process.env.VUE_APP_SERVER + '/business/admin/category/save', _this.category).then((response) => {
@@ -302,13 +304,13 @@ export default {
      */
     del(category) {
       let _this = this;
-      Confirm.show("删除后将不可恢复，确认删除吗？",function (){
+      Confirm.show("删除后将不可恢复，确认删除吗？", function () {
         Loading.show();
         _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/category/delete/' + category.id).then((response) => {
           Loading.hide();
           console.log("删除商品分类 列表结果：", response);
           if (response.data.code === "0") {
-            if(category.parent === "00000000"){
+            if (category.parent === "00000000") {
               _this.childCategoryList = [];
             }
             _this.categoryList();
@@ -318,9 +320,9 @@ export default {
       });
     },
 
-    subCategoryList(category){
+    subCategoryList(category) {
       let _this = this;
-      console.log(category.name + "子类为" , category.childCategoryList)
+      console.log(category.name + "子类为", category.childCategoryList)
       _this.childCategoryList = category.childCategoryList;
       _this.active = category;
     }

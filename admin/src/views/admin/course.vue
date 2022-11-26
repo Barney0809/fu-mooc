@@ -15,41 +15,42 @@
     <div class="row">
       <div v-for="course in courses" class="col-md-4">
         <div class="thumbnail search-thumbnail">
-          <img v-show="!course.image" class="media-object" src="/static/image/demo-course.jpg" />
-          <img v-show="course.image" class="media-object" v-bind:src="course.image" />
+          <img v-show="!course.image" class="media-object" src="/static/image/demo-course.jpg"/>
+          <img v-show="course.image" class="media-object" v-bind:src="course.image"/>
           <div class="caption">
             <div class="clearfix">
               <span class="pull-right label label-primary info-label">
-                {{COURSE_LEVEL | optionKV(course.level)}}
+                {{ COURSE_LEVEL | optionKV(course.level) }}
               </span>
               <span class="pull-right label label-primary info-label">
-                {{COURSE_CHARGE | optionKV(course.charge)}}
+                {{ COURSE_CHARGE | optionKV(course.charge) }}
               </span>
               <span class="pull-right label label-primary info-label">
-                {{COURSE_STATUS | optionKV(course.status)}}
+                {{ COURSE_STATUS | optionKV(course.status) }}
               </span>
             </div>
 
             <h3 class="search-title">
-              <a href="#" class="blue">{{course.name}}</a>
+              <a href="#" class="blue">{{ course.name }}</a>
             </h3>
-            <div v-for="teacher in teachers.filter(t=>{return t.id===course.teacherId})" class="profile-activity clearfix">
+            <div v-for="teacher in teachers.filter(t=>{return t.id===course.teacherId})"
+                 class="profile-activity clearfix">
               <div>
                 <img v-show="!teacher.image" class="pull-left" src="/ace/assets/images/avatars/avatar5.png">
                 <img v-show="teacher.image" class="pull-left" v-bind:src="teacher.image">
-                <a class="user" href="#"> {{teacher.name}} </a>
+                <a class="user" href="#"> {{ teacher.name }} </a>
                 <br>
-                {{teacher.position}}
+                {{ teacher.position }}
               </div>
             </div>
             <p>
-              <span class="blue bolder bigger-150">{{course.price}}&nbsp;<i class="fa fa-rmb"></i></span>&nbsp;
+              <span class="blue bolder bigger-150">{{ course.price }}&nbsp;<i class="fa fa-rmb"></i></span>&nbsp;
             </p>
-            <p>{{course.summary}}</p>
+            <p>{{ course.summary }}</p>
             <p>
-              <span class="badge badge-info">{{course.id}}</span>
-              <span class="badge badge-info">排序：{{course.sort}}</span>
-              <span class="badge badge-info">时长：{{course.time | formatSecond}}</span>
+              <span class="badge badge-info">{{ course.id }}</span>
+              <span class="badge badge-info">排序：{{ course.sort }}</span>
+              <span class="badge badge-info">时长：{{ course.time | formatSecond }}</span>
             </p>
             <p>
               <button v-on:click="toChapter(course)" class="btn btn-white btn-xs btn-info btn-round">
@@ -115,7 +116,7 @@
                 <label class="col-sm-2 control-label">讲师</label>
                 <div class="col-sm-10">
                   <select v-model="course.teacherId" class="form-control">
-                    <option v-for="o in teachers" v-bind:value="o.id">{{o.name}}</option>
+                    <option v-for="o in teachers" v-bind:value="o.id">{{ o.name }}</option>
                   </select>
                 </div>
               </div>
@@ -141,7 +142,7 @@
                 <label class="col-sm-2 control-label">级别</label>
                 <div class="col-sm-10">
                   <select v-model="course.level" class="form-control">
-                    <option v-for="o in COURSE_LEVEL" v-bind:value="o.key">{{o.value}}</option>
+                    <option v-for="o in COURSE_LEVEL" v-bind:value="o.key">{{ o.value }}</option>
                   </select>
                 </div>
               </div>
@@ -149,7 +150,7 @@
                 <label class="col-sm-2 control-label">收费</label>
                 <div class="col-sm-10">
                   <select v-model="course.charge" class="form-control">
-                    <option v-for="o in COURSE_CHARGE" v-bind:value="o.key">{{o.value}}</option>
+                    <option v-for="o in COURSE_CHARGE" v-bind:value="o.key">{{ o.value }}</option>
                   </select>
                 </div>
               </div>
@@ -157,7 +158,7 @@
                 <label class="col-sm-2 control-label">状态</label>
                 <div class="col-sm-10">
                   <select v-model="course.status" class="form-control">
-                    <option v-for="o in COURSE_STATUS" v-bind:value="o.key">{{o.value}}</option>
+                    <option v-for="o in COURSE_STATUS" v-bind:value="o.key">{{ o.value }}</option>
                   </select>
                 </div>
               </div>
@@ -192,7 +193,8 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">排序</h4>
           </div>
           <div class="modal-body">
@@ -236,7 +238,7 @@ import Pagination from "@/components/pagination";
 import File from "@/components/file";
 
 export default {
-  components: {Pagination,File},
+  components: {Pagination, File},
   name: "business-course",
   data: function () {
     return {
@@ -285,7 +287,7 @@ export default {
      */
     edit(course) {
       let _this = this;
-      _this.course = $.extend({},course);
+      _this.course = $.extend({}, course);
       _this.listCategory(course.id);
       $("#form-modal").modal("show");
     },
@@ -316,14 +318,14 @@ export default {
       let _this = this;
 
       // 保存校验
-        if (1 !== 1
+      if (1 !== 1
           || !Validator.require(_this.course.name, "名称")
           || !Validator.length(_this.course.name, "名称", 1, 50)
           || !Validator.length(_this.course.summary, "概述", 1, 2000)
           || !Validator.length(_this.course.image, "封面", 1, 100)
-        ) {
-          return;
-        }
+      ) {
+        return;
+      }
       let categories = _this.tree.getCheckedNodes();
       if (Tool.isEmpty(categories)) {
         Toast.warning("请选择分类！");
@@ -350,7 +352,7 @@ export default {
      */
     del(id) {
       let _this = this;
-      Confirm.show("删除后将不可恢复，确认删除吗？",function (){
+      Confirm.show("删除后将不可恢复，确认删除吗？", function () {
         Loading.show();
         _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/course/delete/' + id).then((response) => {
           Loading.hide();
@@ -383,7 +385,7 @@ export default {
     allCategory() {
       let _this = this;
       Loading.show();
-      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/category/list').then((response)=>{
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/category/list').then((response) => {
         Loading.hide();
         _this.categorys = response.data.data.list;
         _this.initTree();
@@ -393,7 +395,7 @@ export default {
     allTeacher() {
       let _this = this;
       Loading.show();
-      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/teacher/list').then((response)=>{
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/teacher/list').then((response) => {
         Loading.hide();
         _this.teachers = response.data.data.list;
       })
@@ -425,7 +427,7 @@ export default {
     listCategory(courseId) {
       let _this = this;
       Loading.show();
-      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/course/list-category/' + courseId).then((response)=>{
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/course/list-category/' + courseId).then((response) => {
         Loading.hide();
         console.log("查找课程下所有分类结果：", response);
         let categories = response.data.data;

@@ -2,9 +2,10 @@
   <div>
     <h4 class="lighter">
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/admin/business/course" class="pink"> {{course.name}} </router-link>：
+      <router-link to="/admin/business/course" class="pink"> {{ course.name }}</router-link>
+      ：
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/admin/business/chapter" class="pink"> {{chapter.name}} </router-link>
+      <router-link to="/admin/business/chapter" class="pink"> {{ chapter.name }}</router-link>
     </h4>
     <hr>
     <p>
@@ -35,13 +36,13 @@
 
       <tbody>
       <tr v-for="section in sections">
-        <td>{{section.id}}</td>
-        <td>{{section.title}}</td>
-        <td>{{section.video}}</td>
-        <td>{{section.time | formatSecond}}</td>
-        <td>{{SECTION_CHARGE | optionKV(section.charge)}}</td>
-        <td>{{section.sort}}</td>
-        <td>{{section.vod}}</td>
+        <td>{{ section.id }}</td>
+        <td>{{ section.title }}</td>
+        <td>{{ section.video }}</td>
+        <td>{{ section.time | formatSecond }}</td>
+        <td>{{ SECTION_CHARGE | optionKV(section.charge) }}</td>
+        <td>{{ section.sort }}</td>
+        <td>{{ section.vod }}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
             <button class="btn btn-xs btn-info" v-on:click="edit(section)">
@@ -60,7 +61,7 @@
 
               <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                 <li>
-                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(section)">
+                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit" v-on:click="edit(section)">
                      <span class="green">
                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                      </span>
@@ -99,23 +100,23 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">课程</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{course.name}}</p>
+                  <p class="form-control-static">{{ course.name }}</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">大章</label>
                 <div class="col-sm-10">
-                  <p class="form-control-static">{{chapter.name}}</p>
+                  <p class="form-control-static">{{ chapter.name }}</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label">视频</label>
                 <div class="col-sm-10">
                   <big-file v-bind:input-id="'video-upload'"
-                        v-bind:text="'上传大视频'"
-                        v-bind:suffixs="['mp4']"
-                        v-bind:use="FILE_USE.COURSE.key"
-                        v-bind:after-upload="afterUpload"></big-file>
+                            v-bind:text="'上传大视频'"
+                            v-bind:suffixs="['mp4']"
+                            v-bind:use="FILE_USE.COURSE.key"
+                            v-bind:after-upload="afterUpload"></big-file>
                   <div v-show="section.video" class="row">
                     <div class="col-md-9">
                       <video v-bind:src="section.video" id="video" controls="controls"></video>
@@ -133,7 +134,7 @@
                 <label class="col-sm-2 control-label">收费</label>
                 <div class="col-sm-10">
                   <select v-model="section.charge" class="form-control">
-                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{o.value}}</option>
+                    <option v-for="o in SECTION_CHARGE" v-bind:value="o.key">{{ o.value }}</option>
                   </select>
                 </div>
               </div>
@@ -166,7 +167,7 @@ import Pagination from "@/components/pagination";
 import BigFile from "@/components/big-file";
 
 export default {
-  components: {Pagination,BigFile},
+  components: {Pagination, BigFile},
   name: "business-section",
   data: function () {
     return {
@@ -185,7 +186,7 @@ export default {
     let chapter = SessionStorage.get(SESSION_KEY_CHAPTER) || {};
     if (Tool.isEmpty(course) || Tool.isEmpty(chapter)) {
       _this.$router.push("/admin/welcome");
-    }else {
+    } else {
       _this.course = course;
       _this.chapter = chapter;
       _this.list(1);
@@ -211,7 +212,7 @@ export default {
      */
     edit(section) {
       let _this = this;
-      _this.section = $.extend({},section);
+      _this.section = $.extend({}, section);
       $("#form-modal").modal("show");
     },
 
@@ -243,13 +244,13 @@ export default {
       let _this = this;
 
       // 保存校验
-        if (1 !== 1
+      if (1 !== 1
           || !Validator.require(_this.section.title, "标题")
           || !Validator.length(_this.section.title, "标题", 1, 50)
           || !Validator.length(_this.section.video, "视频", 1, 200)
-        ) {
-          return;
-        }
+      ) {
+        return;
+      }
 
       _this.section.courseId = _this.course.id;
       _this.section.chapterId = _this.chapter.id;
@@ -272,7 +273,7 @@ export default {
      */
     del(id) {
       let _this = this;
-      Confirm.show("删除后将不可恢复，确认删除吗？",function (){
+      Confirm.show("删除后将不可恢复，确认删除吗？", function () {
         Loading.show();
         _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/section/delete/' + id).then((response) => {
           Loading.hide();

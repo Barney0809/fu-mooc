@@ -2,7 +2,7 @@
   <div>
     <h4 class="lighter">
       <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>
-      <router-link to="/admin/business/course" class="pink"> {{course.name}} </router-link>
+      <router-link to="/admin/business/course" class="pink"> {{ course.name }}</router-link>
     </h4>
     <hr>
     <file v-bind:input-id="'content-file-upload'"
@@ -22,9 +22,9 @@
       </thead>
       <tbody>
       <tr v-for="(f, i) in files" v-bind:key="f.id">
-        <td>{{f.name}}</td>
-        <td>{{f.url}}</td>
-        <td>{{f.size | formatFileSize}}</td>
+        <td>{{ f.name }}</td>
+        <td>{{ f.url }}</td>
+        <td>{{ f.size | formatFileSize }}</td>
         <td>
           <button v-on:click="delFile(f)" class="btn btn-white btn-xs btn-warning btn-round">
             <i class="ace-icon fa fa-times red2"></i>
@@ -37,7 +37,7 @@
     <form class="form-horizontal">
       <div class="form-group">
         <div class="col-lg-12">
-          {{saveContentLabel}}
+          {{ saveContentLabel }}
         </div>
       </div>
       <div class="form-group">
@@ -51,7 +51,8 @@
         <i class="ace-icon fa fa-plus blue"></i>
         保存
       </button>
-      <router-link to="/admin/business/course" type="button" class="btn btn-white btn-default btn-round" data-dismiss="modal">
+      <router-link to="/admin/business/course" type="button" class="btn btn-white btn-default btn-round"
+                   data-dismiss="modal">
         <i class="ace-icon fa fa-times"></i>
         返回课程
       </router-link>
@@ -61,10 +62,11 @@
 
 <script>
 import File from "../../components/file";
+
 export default {
   components: {File},
   name: "business-course-content",
-  data: function() {
+  data: function () {
     return {
       course: {},
       FILE_USE: FILE_USE,
@@ -73,7 +75,7 @@ export default {
       saveContentInterval: {},
     }
   },
-  mounted: function() {
+  mounted: function () {
     let _this = this;
 
     let course = SessionStorage.get(SESSION_KEY_COURSE) || {};
@@ -88,7 +90,7 @@ export default {
     this.$parent.activeSidebar("business-course-sidebar");
 
   },
-  destroyed: function() {
+  destroyed: function () {
     let _this = this;
     console.log("组件销毁");
     clearInterval(_this.saveContentInterval);
@@ -115,7 +117,7 @@ export default {
       _this.listContentFiles();
 
       Loading.show();
-      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/course/find-content/' + id).then((response)=>{
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/course/find-content/' + id).then((response) => {
         Loading.hide();
         if (response.data.code === "0") {
           if (response.data.data) {
@@ -123,7 +125,7 @@ export default {
           }
 
           // 定时自动保存
-          _this.saveContentInterval = setInterval(function() {
+          _this.saveContentInterval = setInterval(function () {
             _this.saveContent();
           }, 5000);
         } else {
@@ -135,13 +137,13 @@ export default {
     /**
      * 保存内容
      */
-    saveContent () {
+    saveContent() {
       let _this = this;
       let content = $("#content").summernote("code");
       _this.$axios.post(process.env.VUE_APP_SERVER + '/business/admin/course/save-content', {
         id: _this.course.id,
         content: content
-      }).then((response)=>{
+      }).then((response) => {
         Loading.hide();
         if (response.data.code === "0") {
           // Toast.success("内容保存成功");
@@ -160,7 +162,7 @@ export default {
      */
     listContentFiles() {
       let _this = this;
-      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/courseContentFile/list/' + _this.course.id).then((response)=>{
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/admin/courseContentFile/list/' + _this.course.id).then((response) => {
         if (response.data.code === "0") {
           _this.files = response.data.data;
         }
@@ -176,7 +178,7 @@ export default {
       let file = response.data;
       file.courseId = _this.course.id;
       file.url = file.path;
-      _this.$axios.post(process.env.VUE_APP_SERVER + '/business/admin/courseContentFile/save', file).then((response)=>{
+      _this.$axios.post(process.env.VUE_APP_SERVER + '/business/admin/courseContentFile/save', file).then((response) => {
         if (response.data.code === "0") {
           Toast.success("上传文件成功");
           _this.files.push(response.data.data);
@@ -190,7 +192,7 @@ export default {
     delFile(f) {
       let _this = this;
       Confirm.show("删除课程后不可恢复，确认删除？", function () {
-        _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/courseContentFile/delete/' + f.id).then((response)=>{
+        _this.$axios.delete(process.env.VUE_APP_SERVER + '/business/admin/courseContentFile/delete/' + f.id).then((response) => {
           if (response.data.code === "0") {
             Toast.success("删除文件成功");
             Tool.removeObj(_this.files, f);
