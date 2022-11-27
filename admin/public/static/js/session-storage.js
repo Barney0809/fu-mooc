@@ -4,7 +4,7 @@ SESSION_KEY_CHAPTER = "SESSION_KEY_CHAPTER"; // 章管理页面点击节管理�
 SessionStorage = {
     get: function (key) {
         let v = sessionStorage.getItem(key);
-        if (v && typeof(v) !== "undefined" && v !== "undefined") {
+        if (v && typeof (v) !== "undefined" && v !== "undefined") {
             return JSON.parse(v);
         }
     },
