@@ -4,7 +4,7 @@ Validator = {
             Toast.warning(text + "不能为空");
             return false;
         } else {
-            return true
+            return true;
         }
     },
 
