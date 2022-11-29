@@ -16,7 +16,7 @@ Validator = {
             Toast.warning(text + "长度" + min + "~" + max + "位");
             return false;
         } else {
-            return true
+            return true;
         }
     }
 };
