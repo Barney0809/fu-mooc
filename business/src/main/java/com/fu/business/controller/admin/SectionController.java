@@ -7,6 +7,7 @@ import com.fu.server.dto.SectionPageDto;
 import com.fu.server.service.SectionService;
 import com.fu.server.utils.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 
 @RestController

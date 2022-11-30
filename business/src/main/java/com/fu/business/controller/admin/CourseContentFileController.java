@@ -6,6 +6,7 @@ import com.fu.server.dto.ResponseDto;
 import com.fu.server.service.CourseContentFileService;
 import com.fu.server.utils.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import java.util.List;
 

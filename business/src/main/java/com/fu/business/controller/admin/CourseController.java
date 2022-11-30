@@ -7,6 +7,7 @@ import com.fu.server.utils.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class CourseController {
 
     /**
      * 查找课程下所有分类
+     *
      * @param courseId
      */
     @GetMapping("/list-category/{courseId}")

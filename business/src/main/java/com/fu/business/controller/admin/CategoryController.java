@@ -6,6 +6,7 @@ import com.fu.server.dto.ResponseDto;
 import com.fu.server.service.CategoryService;
 import com.fu.server.utils.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categoryList")
-    public ResponseDto<List<CategoryDto>> categoryList(){
+    public ResponseDto<List<CategoryDto>> categoryList() {
         List<CategoryDto> categoryList = categoryService.categoryList();
         return ResponseDto.success(categoryList);
     }
