@@ -38,7 +38,7 @@ public class UploadController {
     private String FILE_PATH;
 
     @RequestMapping("/upload")
-    public ResponseDto upload(@RequestParam MultipartFile file,String use) throws IOException {
+    public ResponseDto upload(@RequestParam MultipartFile file, String use) throws IOException {
         LOG.info("上传文件开始");
         LOG.info(file.getOriginalFilename());
         LOG.info(String.valueOf(file.getSize()));
