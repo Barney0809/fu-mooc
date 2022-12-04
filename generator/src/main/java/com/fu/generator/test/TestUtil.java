@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class TestUtil {
-
     static String ftlPath = "generator\\src\\main\\java\\com\\fu\\generator\\test\\";
     static String toPath = "generator\\src\\main\\java\\com\\fu\\generator\\test\\";
 
