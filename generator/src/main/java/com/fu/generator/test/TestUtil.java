@@ -20,7 +20,6 @@ public class TestUtil {
         cfg.setObjectWrapper(new DefaultObjectWrapper(Configuration.VERSION_2_3_29));
         Template temp = cfg.getTemplate("test.ftl");
 
-
         FileWriter fw = new FileWriter(toPath + "Test.java");
         BufferedWriter bw = new BufferedWriter(fw);
         temp.process(null, bw);
