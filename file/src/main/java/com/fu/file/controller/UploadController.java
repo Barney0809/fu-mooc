@@ -45,11 +45,11 @@ public class UploadController {
                               Integer size,
                               Integer shardIndex,
                               Integer shardSize,
-                              Integer shardTotal) throws IOException {
+                              Integer shardTotal,
+                              String key) throws IOException {
         LOG.info("上传文件开始");
 
         // 保存文件到本地
-        String key = UuidUtil.getShortUuid();
         FileUseEnum useEnum = FileUseEnum.getByCode(use);
 
         //如果文件夹不存在则创建
