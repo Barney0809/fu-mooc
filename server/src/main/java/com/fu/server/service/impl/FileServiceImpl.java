@@ -12,6 +12,7 @@ import com.fu.server.utils.ValidatorUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.List;
@@ -39,15 +40,14 @@ public class FileServiceImpl implements FileService {
     /**
      * 保存，id有值时更新，无值时新增
      */
-    @Override
     public void save(FileDto fileDto) {
-
-        File file = CopyUtil.copy(fileDto,File.class);
-        if(StringUtils.isEmpty(fileDto.getId())){
-            insert(file);
-        }
-        else {
-            update(file);
+        File file = CopyUtil.copy(fileDto, File.class);
+        File fileDb = selectByKey(fileDto.getKey());
+        if (fileDb == null) {
+            this.insert(file);
+        } else {
+            fileDb.setShardIndex(fileDto.getShardIndex());
+            this.update(fileDb);
         }
     }
 
@@ -75,5 +75,17 @@ public class FileServiceImpl implements FileService {
     private void update(File file) {
         file.setUpdatedAt(new Date());
         fileMapper.updateByPrimaryKey(file);
+    }
+
+
+    public File selectByKey(String key) {
+        FileExample example = new FileExample();
+        example.createCriteria().andKeyEqualTo(key);
+        List<File> fileList = fileMapper.selectByExample(example);
+        if (CollectionUtils.isEmpty(fileList)) {
+            return null;
+        } else {
+            return fileList.get(0);
+        }
     }
 }
