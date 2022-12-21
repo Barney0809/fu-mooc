@@ -84,7 +84,7 @@ export default {
       let fileShard = file.slice(start, end); //从文件中截取当前的分片数据
       let size = file.size;
       let shardTotal = Math.ceil(size / shardSize); //总片数
-
+      //
       // // key："shard"必须和后端controller参数名一致
       // formData.append('shard', fileShard);
       // formData.append('shardIndex', shardIndex);
@@ -95,12 +95,12 @@ export default {
       // formData.append('suffix', suffix);
       // formData.append('size', size);
       // formData.append('key', key62);
+      //
       // Loading.show();
-      // _this.$ajax.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formData).then((response)=>{
+      // _this.$axios.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formData).then((response) => {
       //   Loading.hide();
-      //   let resp = response.data;
-      //   console.log("上传文件成功：", resp);
-      //   _this.afterUpload(resp);
+      //   console.log("上传文件成功：", response.data);
+      //   _this.afterUpload(response.data);
       //   $("#" + _this.inputId + "-input").val("");
       // });
 
@@ -108,7 +108,7 @@ export default {
       let fileReader = new FileReader();
       fileReader.onload = function(e) {
         let base64 = e.target.result;
-        console.log("base64:", base64);
+        // console.log("base64:", base64);
 
         let param = {
           'shard': base64,
@@ -133,6 +133,11 @@ export default {
       };
       fileReader.readAsDataURL(fileShard);
     },
+
+    selectFile() {
+      let _this = this;
+      $("#" + _this.inputId + "-input").trigger("click");
+    }
   }
 }
 </script>
