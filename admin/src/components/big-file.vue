@@ -99,15 +99,20 @@ export default {
     /**
      * 检查文件状态，是否已上传过？传到第几个分片？
      */
-    check (param) {
+    check(param) {
       let _this = this;
-      _this.$axios.get(process.env.VUE_APP_SERVER + '/file/admin/check/' + param.key).then((response)=>{
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/file/admin/check/' + param.key).then((response) => {
         if (response.data.code === "0") {
           let obj = response.data.data;
           if (!obj) {
             param.shardIndex = 1;
             console.log("没有找到文件记录，从分片1开始上传");
             _this.upload(param);
+          } else if (obj.shardIndex === obj.shardTotal) {
+            // 已上传分片 = 分片总数，说明已全部上传完，不需要再上传
+            Toast.success("文件极速秒传成功！");
+            _this.afterUpload(response.data);
+            $("#" + _this.inputId + "-input").val("");
           } else {
             param.shardIndex = obj.shardIndex + 1;
             console.log("找到文件记录，从分片" + param.shardIndex + "开始上传");
@@ -130,7 +135,7 @@ export default {
       let fileReader = new FileReader();
       fileReader.onload = function (e) {
         let base64 = e.target.result;
-        // console.log("base64:", base64);
+        console.log("base64:", base64);
 
         param.shard = base64;
         Loading.show();
