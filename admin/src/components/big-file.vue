@@ -119,8 +119,8 @@ export default {
             param.shardIndex = param.shardIndex + 1;
             _this.upload(param);
           } else {
-            $("#" + _this.inputId + "-input").val("");
             _this.afterUpload(resp);
+            $("#" + _this.inputId + "-input").val("");
           }
 
         });
