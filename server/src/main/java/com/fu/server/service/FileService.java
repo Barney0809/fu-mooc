@@ -7,4 +7,5 @@ public interface FileService {
     void list(PageDto pageDto);
     void save(FileDto fileDto);
     void delete(String id);
+    FileDto findByKey(String key);
 }
