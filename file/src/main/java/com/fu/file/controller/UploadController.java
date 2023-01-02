@@ -77,7 +77,7 @@ public class UploadController {
 
         String url = FILE_DOMAIN + path;
         fileDto.setPath(url);
-        if (fileDto.getShardIndex() == fileDto.getShardTotal()) {
+        if (fileDto.getShardIndex().equals(fileDto.getShardTotal())) {
             this.merge(fileDto);
         }
         return ResponseDto.success(fileDto);
