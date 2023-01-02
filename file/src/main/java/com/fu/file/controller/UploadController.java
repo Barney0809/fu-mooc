@@ -42,6 +42,7 @@ public class UploadController {
         String key = fileDto.getKey();
         String suffix = fileDto.getSuffix();
         String shardBase64 = fileDto.getShard();
+
         MultipartFile shard = Base64ToMultipartFile.base64ToMultipart(shardBase64);
 
         // 保存文件到本地

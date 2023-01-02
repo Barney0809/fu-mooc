@@ -290,6 +290,7 @@ export default {
       let _this = this;
       _this.section.video = response.data.path;
       _this.$forceUpdate();
+      _this.getTime();
     },
 
     /**
@@ -299,6 +300,7 @@ export default {
       let _this = this;
       let ele = document.getElementById("video");
       _this.section.time = parseInt(ele.duration, 10);
+      console.log(_this.section.time);
     },
   }
 }

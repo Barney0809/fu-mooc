@@ -56,10 +56,16 @@ export default {
       }
 
       // key："file"必须和后端controller参数名一致
-      formData.append('file', file);
-      formData.append("use", _this.use);
+      // formData.append('file', file);
+      // formData.append("use", _this.use);
+      let param = {
+        'use': _this.use,
+        'name': file.name,
+        'suffix': suffix,
+        'size': file.size
+      }
       Loading.show();
-      _this.$axios.post(process.env.VUE_APP_SERVER + '/file/admin/upload', formData).then((response) => {
+      _this.$axios.post(process.env.VUE_APP_SERVER + '/file/admin/upload', param).then((response) => {
         Loading.hide();
         console.log("上传文件成功：", response.data);
         _this.afterUpload(response.data);
