@@ -39,13 +39,13 @@ public class VodUtil {
     public static CreateUploadVideoResponse createUploadVideo(DefaultAcsClient vodClient) throws ClientException {
         CreateUploadVideoRequest request = new CreateUploadVideoRequest();
         request.setFileName("vod_test.mp4");
-        request.setTitle("this is title");
+        request.setTitle("测试");
         //request.setDescription("this is desc");
         //request.setTags("tag1,tag2");
         //CoverURL示例：http://example.aliyundoc.com/test_cover_****.jpg
-        //request.setCoverURL("<your CoverURL>");
-        //request.setCateId(-1L);
-        //request.setTemplateGroupId("");
+        request.setCoverURL("https://t7.baidu.com/it/u=2529476510,3041785782&fm=193&f=GIF");
+        request.setCateId(1000460827L);
+        request.setTemplateGroupId("accf1d67ecaab8cc1d74531260ebe363");
         //request.setWorkflowId("");
         //request.setStorageLocation("");
         //request.setAppId("app-1000000");
