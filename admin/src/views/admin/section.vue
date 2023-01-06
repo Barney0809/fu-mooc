@@ -112,11 +112,11 @@
               <div class="form-group">
                 <label class="col-sm-2 control-label">视频</label>
                 <div class="col-sm-10">
-                  <big-file v-bind:input-id="'video-upload'"
-                            v-bind:text="'上传大视频'"
+                  <vod v-bind:input-id="'video-upload'"
+                            v-bind:text="'上传VOD'"
                             v-bind:suffixs="['mp4']"
                             v-bind:use="FILE_USE.COURSE.key"
-                            v-bind:after-upload="afterUpload"></big-file>
+                            v-bind:after-upload="afterUpload"></vod>
                   <div v-show="section.video" class="row">
                     <div class="col-md-9">
                       <video v-bind:src="section.video" id="video" controls="controls"></video>
@@ -128,6 +128,18 @@
                 <label class="col-sm-2 control-label">时长</label>
                 <div class="col-sm-10">
                   <input v-model="section.time" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">视频</label>
+                <div class="col-sm-10">
+                  <input v-model="section.video" class="form-control" disabled>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">VOD</label>
+                <div class="col-sm-10">
+                  <input v-model="section.vod" class="form-control" disabled>
                 </div>
               </div>
               <div class="form-group">
@@ -164,10 +176,10 @@
 
 <script>
 import Pagination from "@/components/pagination";
-import BigFile from "@/components/big-file";
+import Vod from "@/components/vod.vue";
 
 export default {
-  components: {Pagination, BigFile},
+  components: {Vod, Pagination},
   name: "business-section",
   data: function () {
     return {
@@ -298,9 +310,10 @@ export default {
      */
     getTime() {
       let _this = this;
-      let ele = document.getElementById("video");
-      _this.section.time = parseInt(ele.duration, 10);
-      console.log(_this.section.time);
+      setTimeout(function () {
+        let ele = document.getElementById("video");
+        _this.section.time = parseInt(ele.duration, 10);
+      }, 100);
     },
   }
 }
