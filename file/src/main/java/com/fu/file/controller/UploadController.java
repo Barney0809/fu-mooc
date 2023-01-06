@@ -1,14 +1,20 @@
 package com.fu.file.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.vod.model.v20170321.GetMezzanineInfoResponse;
 import com.fu.server.dto.FileDto;
 import com.fu.server.dto.ResponseDto;
 import com.fu.server.enums.FileUseEnum;
 import com.fu.server.service.FileService;
 import com.fu.server.utils.Base64ToMultipartFile;
 import com.fu.server.utils.UuidUtil;
+import com.fu.server.utils.VodUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +40,13 @@ public class UploadController {
 
     @Value("${file.path}")
     private String FILE_PATH;
+
+    @Value("${vod.accessKeyId}")
+    private String accessKeyId;
+
+    @Value("${vod.accessKeySecret}")
+    private String accessKeySecret;
+
 
     @RequestMapping("/upload")
     public ResponseDto upload(@RequestBody FileDto fileDto) throws Exception {
@@ -132,11 +145,19 @@ public class UploadController {
     }
 
     @GetMapping("/check/{key}")
-    public ResponseDto check(@PathVariable String key) {
+    public ResponseDto check(@PathVariable String key) throws Exception {
         LOG.info("检查上传分片开始：{}", key);
         FileDto fileDto = fileService.findByKey(key);
         if (fileDto != null) {
-            fileDto.setPath(FILE_DOMAIN + fileDto.getPath());
+            if (StringUtils.isEmpty(fileDto.getVod())) {
+                fileDto.setPath(FILE_DOMAIN + fileDto.getPath());
+            } else {
+                DefaultAcsClient vodClient = VodUtil.initVodClient(accessKeyId, accessKeySecret);
+                GetMezzanineInfoResponse response = VodUtil.getMezzanineInfo(vodClient, fileDto.getVod());
+                System.out.println("获取视频信息, response : " + JSON.toJSONString(response));
+                String fileUrl = response.getMezzanine().getFileURL();
+                fileDto.setPath(fileUrl);
+            }
         }
         return ResponseDto.success(fileDto);
     }
