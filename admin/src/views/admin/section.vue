@@ -119,6 +119,7 @@
                             v-bind:after-upload="afterUpload"></vod>
                   <div v-show="section.video" class="row">
                     <div class="col-md-9">
+                      <player ref="player"></player>
                       <video v-bind:src="section.video" id="video" controls="controls"></video>
                     </div>
                   </div>
@@ -177,9 +178,10 @@
 <script>
 import Pagination from "@/components/pagination";
 import Vod from "@/components/vod.vue";
+import Player from "@/components/player.vue";
 
 export default {
-  components: {Vod, Pagination},
+  components: {Player, Vod, Pagination},
   name: "business-section",
   data: function () {
     return {
@@ -305,6 +307,7 @@ export default {
       _this.section.vod = response.data.vod;
       _this.$forceUpdate();
       _this.getTime();
+      _this.$refs.player.playUrl(_this.section.video);
     },
 
     /**
