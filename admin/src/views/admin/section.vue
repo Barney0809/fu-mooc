@@ -25,11 +25,10 @@
       <tr>
         <th>id</th>
         <th>标题</th>
-        <th>视频</th>
+        <th>VOD</th>
         <th>时长</th>
         <th>收费</th>
         <th>顺序</th>
-        <th>vod</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -38,13 +37,15 @@
       <tr v-for="section in sections">
         <td>{{ section.id }}</td>
         <td>{{ section.title }}</td>
-        <td>{{ section.video }}</td>
+        <td>{{section.vod}}</td>
         <td>{{ section.time | formatSecond }}</td>
         <td>{{ SECTION_CHARGE | optionKV(section.charge) }}</td>
         <td>{{ section.sort }}</td>
-        <td>{{ section.vod }}</td>
         <td>
           <div class="hidden-sm hidden-xs btn-group">
+            <button v-on:click="play(section)" class="btn btn-xs btn-info">
+              <i class="ace-icon fa fa-video-camera bigger-120"></i>
+            </button>
             <button class="btn btn-xs btn-info" v-on:click="edit(section)">
               <i class="ace-icon fa fa-pencil bigger-120"></i>
             </button>
@@ -119,8 +120,9 @@
                             v-bind:after-upload="afterUpload"></vod>
                   <div v-show="section.video" class="row">
                     <div class="col-md-9">
-                      <player ref="player"></player>
-                      <video v-bind:src="section.video" id="video" controls="controls"></video>
+                      <player v-bind:player-id="'form-player-div'"
+                              ref="player"></player>
+                      <video v-bind:src="section.video" id="video" controls="controls" class="hidden"></video>
                     </div>
                   </div>
                 </div>
@@ -131,18 +133,7 @@
                   <input v-model="section.time" class="form-control">
                 </div>
               </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">视频</label>
-                <div class="col-sm-10">
-                  <input v-model="section.video" class="form-control" disabled>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">VOD</label>
-                <div class="col-sm-10">
-                  <input v-model="section.vod" class="form-control" disabled>
-                </div>
-              </div>
+
               <div class="form-group">
                 <label class="col-sm-2 control-label">收费</label>
                 <div class="col-sm-10">
@@ -172,6 +163,7 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    <modal-player ref="modalPlayer"></modal-player>
   </div>
 </template>
 
@@ -179,9 +171,10 @@
 import Pagination from "@/components/pagination";
 import Vod from "@/components/vod.vue";
 import Player from "@/components/player.vue";
+import ModalPlayer from "@/components/modal-player.vue";
 
 export default {
-  components: {Player, Vod, Pagination},
+  components: {ModalPlayer, Player, Vod, Pagination},
   name: "business-section",
   data: function () {
     return {
@@ -318,8 +311,17 @@ export default {
       setTimeout(function () {
         let ele = document.getElementById("video");
         _this.section.time = parseInt(ele.duration, 10);
-      }, 100);
+      }, 1000);
     },
+
+    /**
+     * 播放视频
+     * @param section
+     */
+    play(section) {
+      let _this = this;
+      _this.$refs.modalPlayer.playVod(section.vod);
+    }
   }
 }
 </script>
