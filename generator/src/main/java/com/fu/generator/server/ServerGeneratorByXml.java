@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.*;
 
 public class ServerGeneratorByXml {
-    static String MODULE = "business";
+    static String MODULE = "system";
     static String toServicePath = "server\\src\\main\\java\\com\\fu\\server\\service\\";
     static String toControllerPath = MODULE + "\\src\\main\\java\\com\\fu\\" + MODULE +"\\controller\\admin\\";
     static String toDtoPath = "server\\src\\main\\java\\com\\fu\\server\\dto\\";
