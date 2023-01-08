@@ -15,8 +15,8 @@
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
-                <th>id</th>
-        <th>登陆名</th>
+        <th>id</th>
+        <th>登录名</th>
         <th>昵称</th>
         <th>密码</th>
         <th>操作</th>
@@ -78,9 +78,9 @@
           <div class="modal-body">
             <form class="form-horizontal">
               <div class="form-group">
-                <label class="col-sm-2 control-label">登陆名</label>
+                <label class="col-sm-2 control-label">登录名</label>
                 <div class="col-sm-10">
-                  <input v-model="user.loginName" class="form-control">
+                  <input v-model="user.loginName" class="form-control"  v-bind:disabled="user.id" >
                 </div>
               </div>
               <div class="form-group">
@@ -172,8 +172,8 @@ export default {
 
       // 保存校验
         if (1 !== 1
-          || !Validator.require(_this.user.loginName, "登陆名")
-          || !Validator.length(_this.user.loginName, "登陆名", 1, 50)
+          || !Validator.require(_this.user.loginName, "登录名")
+          || !Validator.length(_this.user.loginName, "登录名", 1, 50)
           || !Validator.length(_this.user.name, "昵称", 1, 50)
           || !Validator.require(_this.user.password, "密码")
         ) {

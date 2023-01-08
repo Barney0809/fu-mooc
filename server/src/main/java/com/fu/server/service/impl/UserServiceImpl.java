@@ -4,6 +4,8 @@ import com.fu.server.domain.User;
 import com.fu.server.domain.UserExample;
 import com.fu.server.dto.UserDto;
 import com.fu.server.dto.PageDto;
+import com.fu.server.enums.ExceptionEnum;
+import com.fu.server.exception.BusinessException;
 import com.fu.server.mapper.UserMapper;
 import com.fu.server.service.UserService;
 import com.fu.server.utils.CopyUtil;
@@ -12,6 +14,7 @@ import com.fu.server.utils.ValidatorUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.List;
@@ -63,6 +66,10 @@ public class UserServiceImpl implements UserService {
      */
     private void insert(User user) {
         user.setId(UuidUtil.getShortUuid());
+        User userDb = this.selectByLoginName(user.getLoginName());
+        if (userDb != null) {
+            throw new BusinessException(ExceptionEnum.USER_LOGIN_NAME_EXIST);
+        }
         userMapper.insert(user);
     }
     /**
@@ -70,5 +77,21 @@ public class UserServiceImpl implements UserService {
      */
     private void update(User user) {
         userMapper.updateByPrimaryKey(user);
+    }
+
+    /**
+     * 根据登录名查询用户信息
+     * @param loginName
+     * @return
+     */
+    public User selectByLoginName(String loginName) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andLoginNameEqualTo(loginName);
+        List<User> userList = userMapper.selectByExample(userExample);
+        if (CollectionUtils.isEmpty(userList)) {
+            return null;
+        } else {
+            return userList.get(0);
+        }
     }
 }
