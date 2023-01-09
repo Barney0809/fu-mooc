@@ -1,5 +1,6 @@
 package com.fu.system.controller.admin;
 
+import com.fu.server.dto.LoginUserDto;
 import com.fu.server.dto.UserDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.dto.ResponseDto;
@@ -51,5 +52,16 @@ public class UserController {
         userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
         userService.savePassword(userDto);
         return ResponseDto.success(userDto);
+    }
+
+
+    /**
+     * 重置密码
+     */
+    @PostMapping("/login")
+    public ResponseDto login(@RequestBody UserDto userDto) {
+        userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
+        LoginUserDto loginUserDto = userService.login(userDto);
+        return ResponseDto.success(loginUserDto);
     }
 }
