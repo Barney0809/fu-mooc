@@ -1,5 +1,6 @@
 package com.fu.system.controller.admin;
 
+import com.fu.server.CourseConst;
 import com.fu.server.dto.LoginUserDto;
 import com.fu.server.dto.UserDto;
 import com.fu.server.dto.PageDto;
@@ -9,6 +10,7 @@ import com.fu.server.utils.ValidatorUtil;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/admin/user")
@@ -59,9 +61,19 @@ public class UserController {
      * 重置密码
      */
     @PostMapping("/login")
-    public ResponseDto login(@RequestBody UserDto userDto) {
+    public ResponseDto login(@RequestBody UserDto userDto, HttpServletRequest request) {
         userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
         LoginUserDto loginUserDto = userService.login(userDto);
+        request.getSession().setAttribute(CourseConst.LOGIN_USER,loginUserDto);
         return ResponseDto.success(loginUserDto);
+    }
+
+    /**
+     * 退出登录
+     */
+    @GetMapping("/logout")
+    public ResponseDto logout(HttpServletRequest request) {
+        request.getSession().removeAttribute(CourseConst.LOGIN_USER);
+        return ResponseDto.success();
     }
 }
