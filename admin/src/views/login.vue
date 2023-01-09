@@ -90,7 +90,8 @@ export default {
       _this.$axios.post(process.env.VUE_APP_SERVER + '/system/admin/user/login', _this.user).then((response)=>{
         Loading.hide();
         if (response.data.code === "0") {
-          console.log(response.data.data);
+          console.log("登录成功：", response.data.data);
+          Tool.setLoginUser(response.data.data);
           _this.$router.push("/admin/welcome")
         } else {
           Toast.warning(response.data.message)
