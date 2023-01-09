@@ -76,7 +76,8 @@ public class UserServiceImpl implements UserService {
      * 更新
      */
     private void update(User user) {
-        userMapper.updateByPrimaryKey(user);
+        user.setPassword(null);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 
     /**
@@ -93,5 +94,17 @@ public class UserServiceImpl implements UserService {
         } else {
             return userList.get(0);
         }
+    }
+
+
+    /**
+     * 重置密码
+     * @param userDto
+     */
+    public void savePassword(UserDto userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setPassword(userDto.getPassword());
+        userMapper.updateByPrimaryKeySelective(user);
     }
 }

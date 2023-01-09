@@ -41,4 +41,15 @@ public class UserController {
         userService.delete(id);
         return ResponseDto.success();
     }
+
+
+    /**
+     * 重置密码
+     */
+    @PostMapping("/save-password")
+    public ResponseDto savePassword(@RequestBody UserDto userDto) {
+        userDto.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
+        userService.savePassword(userDto);
+        return ResponseDto.success(userDto);
+    }
 }

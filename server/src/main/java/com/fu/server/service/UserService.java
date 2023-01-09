@@ -9,4 +9,5 @@ public interface UserService {
     void save(UserDto userDto);
     void delete(String id);
     User selectByLoginName(String loginName);
+    void savePassword(UserDto userDto);
 }
