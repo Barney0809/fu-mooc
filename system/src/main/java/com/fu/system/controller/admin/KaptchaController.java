@@ -23,12 +23,17 @@ public class KaptchaController {
     @Autowired
     DefaultKaptcha defaultKaptcha;
 
+    public static final String BUSINESS_NAME = "验证码";
+
     @GetMapping("/image-code/{imageCodeToken}")
     public void imageCode(@PathVariable(value = "imageCodeToken") String imageCodeToken, HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception{
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
             // 生成验证码字符串
             String createText = defaultKaptcha.createText();
+
+            System.out.println("imageCodeToken = " + imageCodeToken);
+            System.out.println("createText = " + createText);
 
             // 将生成的验证码放入会话缓存中，后续验证的时候用到
             request.getSession().setAttribute(imageCodeToken, createText);
