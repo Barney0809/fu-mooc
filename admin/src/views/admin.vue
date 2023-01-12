@@ -545,7 +545,7 @@ export default {
     logout () {
       let _this = this;
       Loading.show();
-      _this.$axios.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout').then((response)=>{
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/system/admin/user/logout/' + _this.loginUser.token).then((response)=>{
         Loading.hide();
         if (response.data.code === "0") {
           Tool.setLoginUser(null);
