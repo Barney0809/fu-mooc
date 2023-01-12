@@ -125,6 +125,7 @@ export default {
             let md5 = hex_md5(_this.user.password);
             LocalStorage.set(LOCAL_KEY_REMEMBER_USER, {
               // password: _this.user.passwordShow,
+              loginName: loginUser.name,
               password: _this.user.password,
               md5: md5
             });
@@ -157,6 +158,7 @@ export default {
 
     // 从缓存中获取记住的用户名密码，如果获取不到，说明上一次没有勾选“记住我”
     let rememberUser = LocalStorage.get(LOCAL_KEY_REMEMBER_USER);
+    console.log(rememberUser);
     if (rememberUser) {
       _this.user = rememberUser;
     }
