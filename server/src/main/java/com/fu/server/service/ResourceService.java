@@ -7,4 +7,5 @@ public interface ResourceService {
     void list(PageDto pageDto);
     void save(ResourceDto resourceDto);
     void delete(String id);
+    void saveJson(String json);
 }
