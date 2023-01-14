@@ -16,88 +16,26 @@
         </button>
       </div>
       <div class="col-md-6">
+        <ul id="tree" class="ztree"></ul>
       </div>
     </div>
-
-    <hr>
-    <pagination ref="pagination" v-bind:list="list" v-bind:itemCount="8"></pagination>
-    <table id="simple-table" class="table  table-bordered table-hover">
-      <thead>
-      <tr>
-                <th>id</th>
-        <th>名称</th>
-        <th>页面</th>
-        <th>请求</th>
-        <th>父id</th>
-        <th>操作</th>
-      </tr>
-      </thead>
-
-      <tbody>
-      <tr v-for="resource in resources">
-        <td>{{resource.id}}</td>
-        <td>{{resource.name}}</td>
-        <td>{{resource.page}}</td>
-        <td>{{resource.request}}</td>
-        <td>{{resource.parent}}</td>
-        <td>
-          <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-info" v-on:click="edit(resource)">
-              <i class="ace-icon fa fa-pencil bigger-120"></i>
-            </button>
-            <button class="btn btn-xs btn-danger" v-on:click="del(resource.id)">
-              <i class="ace-icon fa fa-trash-o bigger-120"></i>
-            </button>
-          </div>
-
-          <div class="hidden-md hidden-lg">
-            <div class="inline pos-rel">
-              <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-              </button>
-
-              <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                <li>
-                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(resource)">
-                     <span class="green">
-                       <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                     </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" v-on:click="del(resource.id)">
-                     <span class="red">
-                       <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                     </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
 <script>
-import Pagination from "@/components/pagination";
-
 export default {
-  components: {Pagination},
   name: "system-resource",
   data: function () {
     return {
       resources: [],
       resource: {},
       resourceStr: "",
+      tree: {},
     }
   },
   mounted: function () {
     let _this = this;
-    _this.$refs.pagination.size = 10;
-    _this.list(1);
+    _this.list();
     // sidebar激活样式方法一
     // this.$parent.activeSidebar("system-resource-sidebar");
   },
@@ -106,19 +44,14 @@ export default {
     /**
      * 列表查询
      */
-    list(page) {
+    list() {
       let _this = this;
       Loading.show();
-      _this.$axios.get(process.env.VUE_APP_SERVER + '/system/admin/resource/list', {
-        params: {
-          page: page,
-          size: _this.$refs.pagination.size
-        }
-      }).then((response) => {
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/system/admin/resource/load-tree').then((response) => {
         Loading.hide();
-        console.log("查询资源列表结果：", response);
-        _this.resources = response.data.data.list;
-        _this.$refs.pagination.render(page, response.data.data.total);
+        _this.resources = response.data.data
+        // 初始化树
+        _this.initTree();
       })
     },
 
@@ -165,7 +98,26 @@ export default {
           }
         })
       });
-    }
+    },
+    /**
+     * 初始资源树
+     */
+    initTree() {
+      let _this = this;
+      let setting = {
+        data: {
+          simpleData: {
+            idKey: "id",
+            pIdKey: "parent",
+            rootPId: "",
+            // enable: true
+          }
+        }
+      };
+
+      _this.zTree = $.fn.zTree.init($("#tree"), setting, _this.resources);
+      _this.zTree.expandAll(true);
+    },
   }
 }
 </script>

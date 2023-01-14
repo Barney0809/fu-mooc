@@ -7,6 +7,7 @@ import com.fu.server.service.ResourceService;
 import com.fu.server.utils.ValidatorUtil;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/resource")
@@ -35,5 +36,14 @@ public class ResourceController {
     public ResponseDto<ResourceDto> delete(@PathVariable String id) {
         resourceService.delete(id);
         return ResponseDto.success();
+    }
+
+    /**
+     * 资源树查询
+     */
+    @GetMapping("/load-tree")
+    public ResponseDto loadTree() {
+        List<ResourceDto> resourceDtoList = resourceService.loadTree();
+        return ResponseDto.success(resourceDtoList);
     }
 }
