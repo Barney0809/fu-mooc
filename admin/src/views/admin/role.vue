@@ -253,6 +253,7 @@ export default {
         _this.resources = response.data.data;
         // 初始化树
         _this.initTree();
+        _this.listRoleResource();
       })
     },
 
@@ -298,9 +299,27 @@ export default {
         resourceIds: resourceIds
       }).then((response)=>{
         if (response.data.code === "0") {
+          $("#resource-modal").modal("hide");
           Toast.success("保存成功!");
         } else {
           Toast.warning(response.data.message);
+        }
+      });
+    },
+
+    /**
+     * 加载角色资源关联记录
+     */
+    listRoleResource() {
+      let _this = this;
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/system/admin/role/list-resource/' + _this.role.id).then((response)=>{
+        let resources = response.data.data;
+
+        // 勾选查询到的资源：先把树的所有节点清空勾选，再勾选查询到的节点
+        _this.zTree.checkAllNodes(false);
+        for (let i = 0; i < resources.length; i++) {
+          let node = _this.zTree.getNodeByParam("id", resources[i]);
+          _this.zTree.checkNode(node, true);
         }
       });
     },
