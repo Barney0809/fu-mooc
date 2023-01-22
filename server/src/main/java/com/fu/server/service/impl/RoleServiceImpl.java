@@ -2,9 +2,12 @@ package com.fu.server.service.impl;
 
 import com.fu.server.domain.Role;
 import com.fu.server.domain.RoleExample;
+import com.fu.server.domain.RoleResource;
+import com.fu.server.domain.RoleResourceExample;
 import com.fu.server.dto.RoleDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.mapper.RoleMapper;
+import com.fu.server.mapper.RoleResourceMapper;
 import com.fu.server.service.RoleService;
 import com.fu.server.utils.CopyUtil;
 import com.fu.server.utils.UuidUtil;
@@ -20,6 +23,10 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
     @Resource
     private RoleMapper roleMapper;
+
+    @Resource
+    private RoleResourceMapper roleResourceMapper;
+
 
     /**
      * 列表查询
@@ -70,5 +77,26 @@ public class RoleServiceImpl implements RoleService {
      */
     private void update(Role role) {
         roleMapper.updateByPrimaryKey(role);
+    }
+
+    /**
+     * 按角色保存资源
+     */
+    public void saveResource(RoleDto roleDto) {
+        String roleId = roleDto.getId();
+        List<String> resourceIds = roleDto.getResourceIds();
+        // 清空库中所有的当前角色下的记录
+        RoleResourceExample example = new RoleResourceExample();
+        example.createCriteria().andRoleIdEqualTo(roleId);
+        roleResourceMapper.deleteByExample(example);
+
+        // 保存角色资源
+        for (int i = 0; i < resourceIds.size(); i++) {
+            RoleResource roleResource = new RoleResource();
+            roleResource.setId(UuidUtil.getShortUuid());
+            roleResource.setRoleId(roleId);
+            roleResource.setResourceId(resourceIds.get(i));
+            roleResourceMapper.insert(roleResource);
+        }
     }
 }

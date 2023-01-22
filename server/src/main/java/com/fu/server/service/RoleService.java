@@ -7,4 +7,5 @@ public interface RoleService {
     void list(PageDto pageDto);
     void save(RoleDto roleDto);
     void delete(String id);
+    void saveResource(RoleDto roleDto);
 }

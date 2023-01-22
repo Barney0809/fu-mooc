@@ -5,12 +5,16 @@ import com.fu.server.dto.PageDto;
 import com.fu.server.dto.ResponseDto;
 import com.fu.server.service.RoleService;
 import com.fu.server.utils.ValidatorUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/admin/role")
 public class RoleController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RoleController.class);
 
     public static final String BUSINESS_NAME = "角色";
 
@@ -38,5 +42,16 @@ public class RoleController {
     public ResponseDto<RoleDto> delete(@PathVariable String id) {
         roleService.delete(id);
         return ResponseDto.success();
+    }
+
+    /**
+     * 保存资源
+     * @param roleDto
+     */
+    @PostMapping("/save-resource")
+    public ResponseDto saveResource(@RequestBody RoleDto roleDto) {
+        LOG.info("保存角色资源关联开始");
+        roleService.saveResource(roleDto);
+        return ResponseDto.success(roleDto);
     }
 }

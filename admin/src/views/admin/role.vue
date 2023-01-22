@@ -278,6 +278,32 @@ export default {
       _this.zTree = $.fn.zTree.init($("#tree"), setting, _this.resources);
       _this.zTree.expandAll(true);
     },
+
+    /**
+     * 资源模态框点击【保存】
+     */
+    saveResource() {
+      let _this = this;
+      let resources = _this.zTree.getCheckedNodes();
+      console.log("勾选的资源：", resources);
+
+      // 保存时，只需要保存资源id，所以使用id数组进行参数传递
+      let resourceIds = [];
+      for (let i = 0; i < resources.length; i++) {
+        resourceIds.push(resources[i].id);
+      }
+
+      _this.$axios.post(process.env.VUE_APP_SERVER + '/system/admin/role/save-resource', {
+        id: _this.role.id,
+        resourceIds: resourceIds
+      }).then((response)=>{
+        if (response.data.code === "0") {
+          Toast.success("保存成功!");
+        } else {
+          Toast.warning(response.data.message);
+        }
+      });
+    },
   }
 }
 </script>
