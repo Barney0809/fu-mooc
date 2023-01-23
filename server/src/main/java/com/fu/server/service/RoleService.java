@@ -12,4 +12,5 @@ public interface RoleService {
     void saveResource(RoleDto roleDto);
     List<String> listResource(String roleId);
     void saveUser(RoleDto roleDto);
+    List<String> listUser(String roleId);
 }

@@ -77,4 +77,15 @@ public class RoleController {
         roleService.saveUser(roleDto);
         return ResponseDto.success(roleDto);
     }
+
+    /**
+     * 加载用户
+     * @param roleId
+     */
+    @GetMapping("/list-user/{roleId}")
+    public ResponseDto listUser(@PathVariable String roleId) {
+        LOG.info("加载用户开始");
+        List<String> userIdList = roleService.listUser(roleId);
+        return ResponseDto.success(userIdList);
+    }
 }
