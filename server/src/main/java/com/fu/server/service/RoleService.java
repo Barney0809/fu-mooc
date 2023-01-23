@@ -11,4 +11,5 @@ public interface RoleService {
     void delete(String id);
     void saveResource(RoleDto roleDto);
     List<String> listResource(String roleId);
+    void saveUser(RoleDto roleDto);
 }

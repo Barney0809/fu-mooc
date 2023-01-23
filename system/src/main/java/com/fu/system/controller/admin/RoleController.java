@@ -65,4 +65,16 @@ public class RoleController {
         List<String> resourceIdList = roleService.listResource(roleId);
         return ResponseDto.success(resourceIdList);
     }
+
+
+    /**
+     * 保存用户
+     * @param roleDto
+     */
+    @PostMapping("/save-user")
+    public ResponseDto saveUser(@RequestBody RoleDto roleDto) {
+        LOG.info("保存角色用户关联开始");
+        roleService.saveUser(roleDto);
+        return ResponseDto.success(roleDto);
+    }
 }
