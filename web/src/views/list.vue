@@ -57,6 +57,8 @@ export default {
       level1: [],
       level2: [],
       categorys: [],
+      level1Id: "",
+      level2Id: "",
     }
   },
   mounted() {
@@ -75,7 +77,9 @@ export default {
       _this.$axios.get(process.env.VUE_APP_SERVER + '/business/web/course/list', {
         params:{
           page: page,
-          size: _this.$refs.pagination.size
+          size: _this.$refs.pagination.size,
+          categoryId: _this.level2Id || _this.level1Id || "", // 优先取level2Id
+
         }
       }).then((response) => {
         if (response.data.code === "0") {
@@ -117,12 +121,23 @@ export default {
     onClickLevel1(level1Id) {
       let _this = this;
 
-      //点击一级分类时，显示激活状态
+      // 点击一级分类时，设置变量，用于课程筛选
+      // 二级分类id为空，
+      // 如果点击的是【全部】，则一级分类id为空
+      _this.level2Id = null;
+      _this.level1Id = level1Id;
+      if (level1Id === "00000000") {
+        _this.level1Id = null;
+      }
+
+      // 点击一级分类时，显示激活状态
       $("#category-" + level1Id).siblings("a").removeClass("cur");
       $("#category-" + level1Id).addClass("cur");
-      //点击一级分类时，二级分类【无限】按钮要设置激活状态
+
+      // 点击一级分类时，二级分类【无限】按钮要设置激活状态
       $("#category-11111111").siblings("a").removeClass("on");
       $("#category-11111111").addClass("on");
+
 
       // 注意：要先把level2中所有的值清空，再往里放
       _this.level2 = [];
@@ -145,6 +160,8 @@ export default {
           }
         }
       }
+      // 重新加载课程列表
+      _this.listCourse(1);
     },
 
     /**
@@ -155,6 +172,17 @@ export default {
       let _this = this;
       $("#category-" + level2Id).siblings("a").removeClass("on");
       $("#category-" + level2Id).addClass("on");
+
+      // 点击二级分类时，设置变量，用于课程筛选
+      // 如果点击的是【无限】，则二级分类id为空
+      if (level2Id === "11111111") {
+        _this.level2Id = null;
+      } else {
+        _this.level2Id = level2Id;
+      }
+
+      // 重新加载课程列表
+      _this.listCourse(1);
     },
 
   }
