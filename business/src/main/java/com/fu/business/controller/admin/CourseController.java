@@ -26,7 +26,7 @@ public class CourseController {
 
 
     @GetMapping("/list")
-    public ResponseDto<PageDto> list(PageDto pageDto) {
+    public ResponseDto<PageDto> list(CoursePageDto pageDto) {
         courseService.list(pageDto);
         return ResponseDto.success(pageDto);
     }

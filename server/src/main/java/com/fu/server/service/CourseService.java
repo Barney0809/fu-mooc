@@ -1,14 +1,11 @@
 package com.fu.server.service;
 
-import com.fu.server.dto.CourseContentDto;
-import com.fu.server.dto.CourseDto;
-import com.fu.server.dto.PageDto;
-import com.fu.server.dto.SortDto;
+import com.fu.server.dto.*;
 
 import java.util.List;
 
 public interface CourseService {
-    void list(PageDto pageDto);
+    void list(CoursePageDto pageDto);
     void save(CourseDto courseDto);
     void delete(String id);
     void updateTime(String courseId);

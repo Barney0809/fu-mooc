@@ -37,7 +37,7 @@ export default {
       let _this = this;
       _this.$axios.post(process.env.VUE_APP_SERVER + '/business/web/course/list', {
         page: page,
-        size: 3,
+        size: 6,
       }).then((response) => {
         if (response.data.code === "0") {
           _this.courses = response.data.data.list;

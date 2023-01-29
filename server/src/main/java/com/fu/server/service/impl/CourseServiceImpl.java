@@ -3,10 +3,7 @@ package com.fu.server.service.impl;
 import com.fu.server.domain.Course;
 import com.fu.server.domain.CourseContent;
 import com.fu.server.domain.CourseExample;
-import com.fu.server.dto.CourseContentDto;
-import com.fu.server.dto.CourseDto;
-import com.fu.server.dto.PageDto;
-import com.fu.server.dto.SortDto;
+import com.fu.server.dto.*;
 import com.fu.server.enums.CourseStatusEnum;
 import com.fu.server.mapper.CourseContentMapper;
 import com.fu.server.mapper.CourseMapper;
@@ -44,9 +41,13 @@ public class CourseServiceImpl implements CourseService {
      * 列表查询
      */
     @Override
-    public void list(PageDto pageDto) {
+    public void list(CoursePageDto pageDto) {
         PageHelper.startPage(pageDto.getPage(), pageDto.getSize());
         CourseExample courseExample = new CourseExample();
+        CourseExample.Criteria criteria = courseExample.createCriteria();
+        if (!StringUtils.isEmpty(pageDto.getStatus())) {
+            criteria.andStatusEqualTo(pageDto.getStatus());
+        }
         courseExample.setOrderByClause("sort asc");
         List<Course> courseList = courseMapper.selectByExample(courseExample);
         PageInfo<Course> pageInfo = new PageInfo<>(courseList);

@@ -1,8 +1,10 @@
 package com.fu.business.controller.web;
 
 import com.fu.server.dto.CourseDto;
+import com.fu.server.dto.CoursePageDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.dto.ResponseDto;
+import com.fu.server.enums.CourseStatusEnum;
 import com.fu.server.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +39,8 @@ public class CourseController {
      * 列表查询
      */
     @PostMapping("/list")
-    public ResponseDto list(@RequestBody PageDto pageDto) {
+    public ResponseDto list(@RequestBody CoursePageDto pageDto) {
+        pageDto.setStatus(CourseStatusEnum.PUBLISH.getCode());
         courseService.list(pageDto);
         return ResponseDto.success(pageDto);
     }
