@@ -6,9 +6,7 @@ import com.fu.server.dto.ResponseDto;
 import com.fu.server.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -33,5 +31,14 @@ public class CourseController {
         pageDto.setSize(3);
         List<CourseDto> courseDtoList = courseService.listNew(pageDto);
         return ResponseDto.success(courseDtoList);
+    }
+
+    /**
+     * 列表查询
+     */
+    @PostMapping("/list")
+    public ResponseDto list(@RequestBody PageDto pageDto) {
+        courseService.list(pageDto);
+        return ResponseDto.success(pageDto);
     }
 }

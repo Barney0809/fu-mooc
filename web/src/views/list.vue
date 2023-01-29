@@ -33,8 +33,18 @@ export default {
     /**
      * 查询课程列表
      */
-    listCourse() {
+    listCourse(page) {
       let _this = this;
+      _this.$axios.post(process.env.VUE_APP_SERVER + '/business/web/course/list', {
+        page: page,
+        size: 3,
+      }).then((response) => {
+        if (response.data.code === "0") {
+          _this.courses = response.data.data.list;
+        }
+      }).catch((response) => {
+        console.log("error：", response);
+      })
     },
 
   }
