@@ -104,6 +104,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
+     * 列表查询
+     */
+    public List<CategoryDto> all() {
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.setOrderByClause("sort asc");
+        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+        List<CategoryDto> categoryDtoList = CopyUtil.copyList(categoryList, CategoryDto.class);
+        return categoryDtoList;
+    }
+
+    /**
      * 新增
      */
     private void insert(Category category) {

@@ -10,4 +10,5 @@ public interface CategoryService {
     void save(CategoryDto categoryDto);
     void delete(String id);
     List<CategoryDto> categoryList();
+    List<CategoryDto> all();
 }

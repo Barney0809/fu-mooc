@@ -38,8 +38,8 @@ public class CourseController {
     /**
      * 列表查询
      */
-    @PostMapping("/list")
-    public ResponseDto list(@RequestBody CoursePageDto pageDto) {
+    @GetMapping("/list")
+    public ResponseDto list(CoursePageDto pageDto) {
         pageDto.setStatus(CourseStatusEnum.PUBLISH.getCode());
         courseService.list(pageDto);
         return ResponseDto.success(pageDto);
