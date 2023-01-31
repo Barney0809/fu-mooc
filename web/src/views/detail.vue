@@ -7,15 +7,15 @@
             <img class="img-fluid" v-bind:src="course.image">
           </div>
           <div class="col-sm-6">
-            <h1>{{course.name}}</h1>
+            <h1>{{ course.name }}</h1>
             <p class="course-head-item">
-              <span><i class="fa fa-clock-o"></i> {{(course.time) | formatSecond}}</span>
-              <span>{{COURSE_LEVEL | optionKV(course.level)}}</span>
-              <span><i class="fa fa-user"></i> {{course.enroll}}</span>
+              <span><i class="fa fa-clock-o"></i> {{ (course.time) | formatSecond }}</span>
+              <span>{{ COURSE_LEVEL | optionKV(course.level) }}</span>
+              <span><i class="fa fa-user"></i> {{ course.enroll }}</span>
             </p>
-            <p class="course-head-desc">{{course.summary}}</p>
+            <p class="course-head-desc">{{ course.summary }}</p>
             <p class="course-head-price">
-              <span class="price-now text-danger"><i class="fa fa-yen"></i>&nbsp;{{course.price}}&nbsp;&nbsp;</span>
+              <span class="price-now text-danger"><i class="fa fa-yen"></i>&nbsp;{{ course.price }}&nbsp;&nbsp;</span>
             </p>
             <p class="course-head-button-links">
               <a class="btn btn-lg btn-primary btn-shadow" href="javascript:;">立即报名</a>
@@ -44,23 +44,27 @@
               <div class="tab-pane active" id="info" v-html="course.content">
               </div>
               <div class="tab-pane" id="chapter">
-                <div v-for="chapter in chapters" class="chapter">
-                  <div class="chapter-chapter">
-                    <span class="folded-button">{{chapter.name}}</span>
+                <div v-for="(chapter, i) in chapters" class="chapter">
+                  <div v-on:click="doFolded(chapter, i)" class="chapter-chapter">
+                    <span>{{ chapter.name }}</span>
+                    <span class="pull-right">
+                      <i v-show="chapter.folded" class="fa fa-plus-square" aria-hidden="true"></i>
+                      <i v-show="!chapter.folded" class="fa fa-minus-square" aria-hidden="true"></i>
+                    </span>
                   </div>
-                  <div>
+                  <div v-show="!chapter.folded">
                     <table class="table table-striped">
                       <tr v-for="(s, j) in chapter.sections" class="chapter-section-tr">
                         <td class="col-sm-8 col-xs-12">
                           <div class="section-title">
                             <i class="fa fa-video-camera d-none d-sm-inline"></i>&nbsp;&nbsp;
-                            <span class="d-none d-sm-inline">第{{j+1}}节&nbsp;&nbsp;</span>
-                            {{s.title}}
+                            <span class="d-none d-sm-inline">第{{ j + 1 }}节&nbsp;&nbsp;</span>
+                            {{ s.title }}
                             <span v-show="s.charge !== SECTION_CHARGE.CHARGE.key" class="badge badge-primary hidden-xs">免费</span>
                           </div>
                         </td>
                         <td class="col-sm-1 text-right">
-                          <span class="badge badge-primary">{{s.time | formatSecond}}</span>
+                          <span class="badge badge-primary">{{ s.time | formatSecond }}</span>
                         </td>
                       </tr>
                     </table>
@@ -76,9 +80,9 @@
             <div class="card" style="width: 18rem;">
               <img v-bind:src="teacher.image" class="card-img-top">
               <div class="card-body">
-                <h5 class="card-title">{{teacher.name}}</h5>
-                <p class="card-text">{{teacher.motto}}</p>
-                <p class="card-text">{{teacher.intro}}</p>
+                <h5 class="card-title">{{ teacher.name }}</h5>
+                <p class="card-text">{{ teacher.motto }}</p>
+                <p class="card-text">{{ teacher.intro }}</p>
               </div>
             </div>
           </div>
@@ -113,7 +117,7 @@ export default {
   methods: {
     findCourse() {
       let _this = this;
-      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/web/course/find/' + _this.id).then((response)=>{
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/web/course/find/' + _this.id).then((response) => {
         _this.course = response.data.data;
         _this.teacher = _this.course.teacher || {};
         _this.chapters = _this.course.chapters || [];
@@ -132,6 +136,16 @@ export default {
         }
       })
     },
+    /**
+     * 展开/收缩一个章节
+     * @param chapter
+     */
+    doFolded(chapter, i) {
+      let _this = this;
+      chapter.folded = !chapter.folded;
+      // 在v-for里写v-show，只修改属性不起作用，需要$set
+      _this.$set(_this.chapters, i, chapter);
+    },
   }
 }
 </script>
@@ -140,13 +154,16 @@ export default {
 /* 课程信息 */
 .course-head {
 }
+
 .course-head h1 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
 }
+
 .course-head-item span {
   margin-right: 1rem;
 }
+
 .course-head-desc {
   font-size: 1rem;
   color: #555
@@ -164,42 +181,57 @@ export default {
     font-size: 1.5rem;
   }
 }
+
 /* 章节列表 */
 .chapter {
   padding-bottom: 1.25rem;
 }
+
 .chapter-chapter {
   font-size: 1.25rem;
   padding: 1.25rem;
   background-color: #23527c;
   color: white;
+  cursor: pointer;
+
 }
+
 .chapter-section-tr {
   font-size: 1rem;
 }
-.chapter-section-tr td{
+
+.chapter-section-tr td {
   padding: 1rem 1.25rem;
   vertical-align: middle;
 }
+
 /*鼠标手势*/
-.chapter-section-tr td .section-title{
+.chapter-section-tr td .section-title {
   color: #555;
 }
-.chapter-section-tr td .section-title:hover{
+
+.chapter-section-tr td .section-title:hover {
   color: #23527c;
   font-weight: bolder;
   cursor: pointer;
 }
+
 /*行头小图标*/
-.chapter-section-tr td .section-title i{
+.chapter-section-tr td .section-title i {
   color: #2a6496;
 }
+
 @media (max-width: 700px) {
   .chapter-chapter {
     font-size: 1.2rem;
   }
+
   .chapter-section-tr {
     font-size: 0.9rem;
   }
+}
+
+.pull-right {
+  float: right !important
 }
 </style>
