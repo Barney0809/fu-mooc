@@ -1,4 +1,4 @@
-package com.fu.file.controller;
+package com.fu.file.controller.admin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.OSSClient;

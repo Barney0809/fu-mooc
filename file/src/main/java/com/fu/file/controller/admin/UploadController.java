@@ -1,15 +1,13 @@
-package com.fu.file.controller;
+package com.fu.file.controller.admin;
 
 import com.alibaba.fastjson.JSON;
 import com.aliyuncs.DefaultAcsClient;
-import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.vod.model.v20170321.GetMezzanineInfoResponse;
 import com.fu.server.dto.FileDto;
 import com.fu.server.dto.ResponseDto;
 import com.fu.server.enums.FileUseEnum;
 import com.fu.server.service.FileService;
 import com.fu.server.utils.Base64ToMultipartFile;
-import com.fu.server.utils.UuidUtil;
 import com.fu.server.utils.VodUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
