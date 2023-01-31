@@ -10,6 +10,12 @@ Vue.prototype.$axios = axios;
 // 解决每次ajax请求，对应的sessionId不一致的问题
 axios.defaults.withCredentials = true;
 
+// 全局过滤器
+Object.keys(filter).forEach(key => {
+    Vue.filter(key, filter[key])
+});
+
+
 /**
  * axios拦截器
  */
@@ -27,8 +33,4 @@ new Vue({
     render: h => h(App),
 }).$mount('#app');
 
-// 全局过滤器
-Object.keys(filter).forEach(key => {
-    Vue.filter(key, filter[key])
-});
 
