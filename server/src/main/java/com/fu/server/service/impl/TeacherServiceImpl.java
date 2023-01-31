@@ -71,4 +71,13 @@ public class TeacherServiceImpl implements TeacherService {
     private void update(Teacher teacher) {
         teacherMapper.updateByPrimaryKey(teacher);
     }
+
+    /**
+     * 查找
+     * @param id
+     */
+    public TeacherDto findById(String id) {
+        Teacher teacher = teacherMapper.selectByPrimaryKey(id);
+        return CopyUtil.copy(teacher, TeacherDto.class);
+    }
 }

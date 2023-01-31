@@ -7,4 +7,5 @@ public interface TeacherService {
     void list(PageDto pageDto);
     void save(TeacherDto teacherDto);
     void delete(String id);
+    TeacherDto findById(String id);
 }

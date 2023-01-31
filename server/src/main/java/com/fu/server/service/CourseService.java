@@ -13,4 +13,5 @@ public interface CourseService {
     int saveContent(CourseContentDto contentDto);
     void sort(SortDto sortDto);
     List<CourseDto> listNew(PageDto pageDto);
+    CourseDto findCourse(String id);
 }

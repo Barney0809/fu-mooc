@@ -82,6 +82,14 @@ public class CourseDto {
 
     private List<CategoryDto> categories;
 
+    private List<ChapterDto> chapters;
+
+    private List<SectionDto> sections;
+
+    private String content;
+
+    private TeacherDto teacher;
+
     public String getId() {
         return id;
     }
@@ -202,6 +210,38 @@ public class CourseDto {
         this.categories = categories;
     }
 
+    public List<ChapterDto> getChapters() {
+        return chapters;
+    }
+
+    public void setChapters(List<ChapterDto> chapters) {
+        this.chapters = chapters;
+    }
+
+    public List<SectionDto> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<SectionDto> sections) {
+        this.sections = sections;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public TeacherDto getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(TeacherDto teacher) {
+        this.teacher = teacher;
+    }
+
     @Override
     public String toString() {
         return "CourseDto{" +
@@ -220,6 +260,10 @@ public class CourseDto {
                 ", updatedAt=" + updatedAt +
                 ", teacherId='" + teacherId + '\'' +
                 ", categories=" + categories +
+                ", chapters=" + chapters +
+                ", sections=" + sections +
+                ", content='" + content + '\'' +
+                ", teacher=" + teacher +
                 '}';
     }
 }
