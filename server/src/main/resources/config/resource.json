@@ -113,6 +113,20 @@
             ]
           }
         ]
+      },
+      {
+        "id": "0204",
+        "name": "会员管理",
+        "page": "business/member",
+        "children": [
+          {
+            "id": "020401",
+            "name": "增删改查",
+            "request": [
+              "/business/admin/member"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -129,7 +143,7 @@
             "id": "030101",
             "name": "文件管理",
             "request": [
-              "/file/admin/file"
+              "/business/admin/file"
             ]
           }
         ]

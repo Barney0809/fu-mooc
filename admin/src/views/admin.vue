@@ -443,6 +443,14 @@
                 </router-link>
                 <b class="arrow"></b>
               </li>
+              <li v-show="hasResource('0204')" class="" id="business-member-sidebar">
+                <router-link to="/admin/business/member">
+                  <i class="menu-icon fa fa-caret-right"></i>
+                  会员管理
+                </router-link>
+
+                <b class="arrow"></b>
+              </li>
             </ul>
           </li>
           <li v-show="hasResource('03')" class="">
