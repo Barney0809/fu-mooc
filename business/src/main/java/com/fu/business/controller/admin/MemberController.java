@@ -23,20 +23,4 @@ public class MemberController {
         return ResponseDto.success(pageDto);
     }
 
-    @PostMapping("/save")
-    public ResponseDto<MemberDto> save(@RequestBody MemberDto memberDto) {
-        // 保存校验
-        ValidatorUtil.length(memberDto.getMobile(), "手机号", 1, 11);
-        ValidatorUtil.require(memberDto.getPassword(), "密码");
-        ValidatorUtil.length(memberDto.getName(), "昵称", 1, 50);
-        ValidatorUtil.length(memberDto.getPhoto(), "头像url", 1, 200);
-        memberService.save(memberDto);
-        return ResponseDto.success(memberDto);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseDto<MemberDto> delete(@PathVariable String id) {
-        memberService.delete(id);
-        return ResponseDto.success();
-    }
 }
