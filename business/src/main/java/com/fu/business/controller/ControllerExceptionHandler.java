@@ -1,6 +1,7 @@
 package com.fu.business.controller;
 
 import com.fu.server.dto.ResponseDto;
+import com.fu.server.exception.BusinessException;
 import com.fu.server.exception.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,5 +26,12 @@ public class ControllerExceptionHandler {
          */
 //        return ResponseDto.error(e.getMessage());
         return ResponseDto.error("请求参数异常");
+    }
+
+    @ExceptionHandler(value = BusinessException.class)
+    @ResponseBody
+    public ResponseDto businessExceptionHandler(BusinessException e) {
+        LOG.error("业务异常：{}", e.getCode().getMessage());
+        return ResponseDto.error(e.getCode().getMessage());
     }
 }

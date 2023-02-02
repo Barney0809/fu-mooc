@@ -69,7 +69,7 @@ public class UserController {
 
 
     /**
-     * 重置密码
+     * 登录
      */
     @PostMapping("/login")
     public ResponseDto login(@RequestBody UserDto userDto, HttpServletRequest request) {

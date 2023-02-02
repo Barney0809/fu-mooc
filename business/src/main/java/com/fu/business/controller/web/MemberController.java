@@ -1,16 +1,22 @@
 package com.fu.business.controller.web;
 
+import com.alibaba.fastjson.JSON;
+import com.fu.server.dto.LoginMemberDto;
 import com.fu.server.dto.MemberDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.dto.ResponseDto;
 import com.fu.server.service.MemberService;
+import com.fu.server.utils.UuidUtil;
 import com.fu.server.utils.ValidatorUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @RestController("webMemberController")
 @RequestMapping("/web/member")
@@ -22,6 +28,9 @@ public class MemberController {
 
     @Resource
     private MemberService memberService;
+
+    @Resource(name = "redisTemplate")
+    private RedisTemplate redisTemplate;
 
     /**
      * 保存，id有值时更新，无值时新增
@@ -41,4 +50,34 @@ public class MemberController {
         return ResponseDto.success(memberDto);
     }
 
+
+    /**
+     * 登录
+     */
+    @PostMapping("/login")
+    public ResponseDto login(@RequestBody MemberDto memberDto) {
+        LOG.info("用户登录开始");
+        memberDto.setPassword(DigestUtils.md5DigestAsHex(memberDto.getPassword().getBytes()));
+
+        // 根据验证码token去获取缓存中的验证码，和用户输入的验证码是否一致
+        String imageCode = (String) redisTemplate.opsForValue().get(memberDto.getImageCodeToken());
+        LOG.info("从redis中获取到的验证码：{}", imageCode);
+        if (StringUtils.isEmpty(imageCode)) {
+            LOG.info("用户登录失败，验证码已过期");
+            return ResponseDto.error("验证码已过期");
+        }
+        if (!imageCode.toLowerCase().equals(memberDto.getImageCode().toLowerCase())) {
+            LOG.info("用户登录失败，验证码不正确");
+            return ResponseDto.error("验证码不正确");
+        } else {
+            // 验证通过后，移除验证码
+            redisTemplate.delete(memberDto.getImageCodeToken());
+        }
+
+        LoginMemberDto loginMemberDto = memberService.login(memberDto);
+        String token = UuidUtil.getShortUuid();
+        loginMemberDto.setToken(token);
+        redisTemplate.opsForValue().set(token, JSON.toJSONString(loginMemberDto), 3600, TimeUnit.SECONDS);
+        return ResponseDto.success(loginMemberDto);
+    }
 }
