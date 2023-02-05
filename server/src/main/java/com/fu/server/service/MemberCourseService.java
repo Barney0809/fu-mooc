@@ -10,4 +10,5 @@ public interface MemberCourseService {
     void delete(String id);
     MemberCourseDto enroll(MemberCourseDto memberCourseDto);
     MemberCourse select(String memberId, String courseId);
+    MemberCourseDto getEnroll(MemberCourseDto memberCourseDto);
 }

@@ -21,7 +21,7 @@ public class MemberCourseController {
     private MemberCourseService memberCourseService;
 
     /**
-     * 保存，id有值时更新，无值时新增
+     * 报名
      */
     @PostMapping("/enroll")
     public ResponseDto enroll(@RequestBody MemberCourseDto memberCourseDto) {
@@ -34,11 +34,11 @@ public class MemberCourseController {
     }
 
     /**
-     * 删除
+     * 获取报名信息
      */
-    @DeleteMapping("/delete/{id}")
-    public ResponseDto delete(@PathVariable String id) {
-        memberCourseService.delete(id);
-        return ResponseDto.success();
+    @PostMapping("/get-enroll")
+    public ResponseDto getEnroll(@RequestBody MemberCourseDto memberCourseDto) {
+        memberCourseDto = memberCourseService.getEnroll(memberCourseDto);
+        return ResponseDto.success(memberCourseDto);
     }
 }
