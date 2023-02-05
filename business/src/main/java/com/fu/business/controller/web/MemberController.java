@@ -1,12 +1,11 @@
 package com.fu.business.controller.web;
 
 import com.alibaba.fastjson.JSON;
-import com.fu.server.dto.LoginMemberDto;
-import com.fu.server.dto.MemberDto;
-import com.fu.server.dto.PageDto;
-import com.fu.server.dto.ResponseDto;
+import com.fu.server.dto.*;
+import com.fu.server.enums.SmsUseEnum;
 import com.fu.server.exception.BusinessException;
 import com.fu.server.service.MemberService;
+import com.fu.server.service.SmsService;
 import com.fu.server.utils.UuidUtil;
 import com.fu.server.utils.ValidatorUtil;
 import org.slf4j.Logger;
@@ -30,6 +29,9 @@ public class MemberController {
     @Resource
     private MemberService memberService;
 
+    @Resource
+    private SmsService smsService;
+
     @Resource(name = "redisTemplate")
     private RedisTemplate redisTemplate;
 
@@ -47,6 +49,15 @@ public class MemberController {
 
         // 密码加密
         memberDto.setPassword(DigestUtils.md5DigestAsHex(memberDto.getPassword().getBytes()));
+
+        // 校验短信验证码
+        SmsDto smsDto = new SmsDto();
+        smsDto.setMobile(memberDto.getMobile());
+        smsDto.setCode(memberDto.getSmsCode());
+        smsDto.setUse(SmsUseEnum.REGISTER.getCode());
+        smsService.validCode(smsDto);
+        LOG.info("短信验证码校验通过");
+
         memberService.save(memberDto);
         return ResponseDto.success(memberDto);
     }

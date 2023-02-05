@@ -8,4 +8,5 @@ public interface SmsService {
     void save(SmsDto smsDto);
     void delete(String id);
     void sendCode(SmsDto smsDto);
+    void validCode(SmsDto smsDto);
 }
