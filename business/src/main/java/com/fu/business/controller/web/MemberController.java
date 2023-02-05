@@ -80,4 +80,14 @@ public class MemberController {
         redisTemplate.opsForValue().set(token, JSON.toJSONString(loginMemberDto), 3600, TimeUnit.SECONDS);
         return ResponseDto.success(loginMemberDto);
     }
+
+    /**
+     * 退出登录
+     */
+    @GetMapping("/logout/{token}")
+    public ResponseDto logout(@PathVariable String token) {
+        redisTemplate.delete(token);
+        LOG.info("从redis中删除token:{}", token);
+        return ResponseDto.success();
+    }
 }

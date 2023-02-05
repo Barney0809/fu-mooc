@@ -30,7 +30,8 @@
             </li>
           </ul>
           <span v-show="loginMember.id" class="text-white pr-3">您好：{{loginMember.name}}</span>
-          <button v-on:click="openLoginModal()" class="btn btn-outline-light my-2 my-sm-0" type="submit">登录/注册</button>
+          <button v-show="loginMember.id" v-on:click="logout()" class="btn btn-outline-light my-2 my-sm-0">退出登录</button>
+          <button v-show="!loginMember.id" v-on:click="openLoginModal()" class="btn btn-outline-light my-2 my-sm-0">登录/注册</button>
         </div>
       </div>
     </nav>
@@ -66,7 +67,22 @@ export default {
       let _this = this;
       _this.loginMember = loginMember;
     },
-
+    logout () {
+      let _this = this;
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/web/member/logout/' + _this.loginMember.token).then((response)=>{
+        if (response.data.code === "0") {
+          Tool.setLoginMember(null);
+          _this.loginMember = {};
+          Toast.success("退出登录成功");
+          //避免出现"NavigationDuplicated"错误
+          // vue-router 在3.1版本以后将 $router.push()、 $router.replace() 方法改为了 Promise，
+          // 假如没有回调函数，错误信息就会交给全局的路由错误处理。Uncaught (in promise)
+          _this.$router.push("/").catch(err => {err});
+        } else {
+          Toast.warning(response.data.message);
+        }
+      });
+    },
   }
 }
 </script>
