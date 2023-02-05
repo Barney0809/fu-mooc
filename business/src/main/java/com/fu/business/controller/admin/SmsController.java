@@ -23,22 +23,4 @@ public class SmsController {
         return ResponseDto.success(pageDto);
     }
 
-    @PostMapping("/save")
-    public ResponseDto<SmsDto> save(@RequestBody SmsDto smsDto) {
-        // 保存校验
-        ValidatorUtil.require(smsDto.getMobile(), "手机号");
-        ValidatorUtil.length(smsDto.getMobile(), "手机号", 1, 50);
-        ValidatorUtil.require(smsDto.getCode(), "验证码");
-        ValidatorUtil.require(smsDto.getUse(), "用途");
-        ValidatorUtil.require(smsDto.getAt(), "生成时间");
-        ValidatorUtil.require(smsDto.getStatus(), "用途");
-        smsService.save(smsDto);
-        return ResponseDto.success(smsDto);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseDto<SmsDto> delete(@PathVariable String id) {
-        smsService.delete(id);
-        return ResponseDto.success();
-    }
 }

@@ -1,11 +1,6 @@
 <template>
   <div>
     <p>
-      <button v-on:click="add()" class="btn btn-white btn-default btn-round">
-        <i class="ace-icon fa fa-edit"></i>
-        新增
-      </button>
-      &nbsp;
       <button v-on:click="list(1)" class="btn btn-white btn-default btn-round">
         <i class="ace-icon fa fa-refresh"></i>
         刷新
@@ -15,13 +10,12 @@
     <table id="simple-table" class="table  table-bordered table-hover">
       <thead>
       <tr>
-                <th>id</th>
+        <th>id</th>
         <th>手机号</th>
         <th>验证码</th>
         <th>用途</th>
         <th>生成时间</th>
         <th>用途</th>
-        <th>操作</th>
       </tr>
       </thead>
 
@@ -33,97 +27,9 @@
         <td>{{SMS_USE | optionKV(sms.use)}}</td>
         <td>{{sms.at}}</td>
         <td>{{SMS_STATUS | optionKV(sms.status)}}</td>
-        <td>
-          <div class="hidden-sm hidden-xs btn-group">
-            <button class="btn btn-xs btn-info" v-on:click="edit(sms)">
-              <i class="ace-icon fa fa-pencil bigger-120"></i>
-            </button>
-            <button class="btn btn-xs btn-danger" v-on:click="del(sms.id)">
-              <i class="ace-icon fa fa-trash-o bigger-120"></i>
-            </button>
-          </div>
-
-          <div class="hidden-md hidden-lg">
-            <div class="inline pos-rel">
-              <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
-              </button>
-
-              <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                <li>
-                  <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"  v-on:click="edit(sms)">
-                     <span class="green">
-                       <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                     </span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete" v-on:click="del(sms.id)">
-                     <span class="red">
-                       <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                     </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </td>
       </tr>
       </tbody>
     </table>
-    <div id="form-modal" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">表单</h4>
-          </div>
-          <div class="modal-body">
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label class="col-sm-2 control-label">手机号</label>
-                <div class="col-sm-10">
-                  <input v-model="sms.mobile" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">验证码</label>
-                <div class="col-sm-10">
-                  <input v-model="sms.code" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">用途</label>
-                <div class="col-sm-10">
-                  <select v-model="sms.use" class="form-control">
-                    <option v-for="o in SMS_USE" v-bind:value="o.key">{{o.value}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">生成时间</label>
-                <div class="col-sm-10">
-                  <input v-model="sms.at" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label">用途</label>
-                <div class="col-sm-10">
-                  <select v-model="sms.status" class="form-control">
-                    <option v-for="o in SMS_STATUS" v-bind:value="o.key">{{o.value}}</option>
-                  </select>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" v-on:click="save()">保存</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
   </div>
 </template>
 
