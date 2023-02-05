@@ -159,10 +159,18 @@ export default {
     play(section) {
       let _this = this;
       if (section.charge === _this.SECTION_CHARGE.CHARGE.key ) {
-        Toast.warning("请先登录");
-      } else {
-        _this.$refs.modalPlayer.playVod(section.vod);
+        let loginMember = Tool.getLoginMember();
+        if (Tool.isEmpty(loginMember)) {
+          Toast.warning("请先登录");
+          return;
+        } else {
+          if (Tool.isEmpty(_this.memberCourse)) {
+            Toast.warning("请先报名");
+            return;
+          }
+        }
       }
+      _this.$refs.modalPlayer.playVod(section.vod);
     },
 
     /**
@@ -180,7 +188,7 @@ export default {
         memberId: loginMember.id
       }).then((response)=>{
         if (response.data.code === "0") {
-          _this.memberCourse = response.data.content;
+          _this.memberCourse = response.data.data;
           Toast.success("报名成功！");
         } else {
           Toast.warning(response.data.message);
