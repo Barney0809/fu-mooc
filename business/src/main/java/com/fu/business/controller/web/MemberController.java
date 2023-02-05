@@ -5,6 +5,7 @@ import com.fu.server.dto.LoginMemberDto;
 import com.fu.server.dto.MemberDto;
 import com.fu.server.dto.PageDto;
 import com.fu.server.dto.ResponseDto;
+import com.fu.server.exception.BusinessException;
 import com.fu.server.service.MemberService;
 import com.fu.server.utils.UuidUtil;
 import com.fu.server.utils.ValidatorUtil;
@@ -89,5 +90,20 @@ public class MemberController {
         redisTemplate.delete(token);
         LOG.info("从redis中删除token:{}", token);
         return ResponseDto.success();
+    }
+
+    /**
+     * 校验手机号是否存在
+     * 存在则success=true，不存在则success=false
+     */
+    @GetMapping(value = "/is-mobile-exist/{mobile}")
+    public ResponseDto isMobileExist(@PathVariable(value = "mobile") String mobile) throws BusinessException {
+        LOG.info("查询手机号是否存在开始");
+        MemberDto memberDto = memberService.findByMobile(mobile);
+        if (memberDto == null) {
+            return ResponseDto.error();
+        } else {
+            return ResponseDto.success();
+        }
     }
 }

@@ -252,7 +252,14 @@ export default {
         use: SMS_USE.REGISTER.key
       };
 
-      _this.sendSmsCode(sms, "register-send-code-btn");
+      _this.$axios.get(process.env.VUE_APP_SERVER + '/business/web/member/is-mobile-exist/' + _this.memberRegister.mobile).then((response)=>{
+        if (response.data.code === "0") {
+          Toast.warning("手机号已被注册");
+        } else {
+          // 调服务端发送短信接口
+          _this.sendSmsCode(sms, "register-send-code-btn");
+        }
+      })
     },
 
     /**
