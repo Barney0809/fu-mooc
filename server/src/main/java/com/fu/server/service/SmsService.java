@@ -7,4 +7,5 @@ public interface SmsService {
     void list(PageDto pageDto);
     void save(SmsDto smsDto);
     void delete(String id);
+    void sendCode(SmsDto smsDto);
 }
