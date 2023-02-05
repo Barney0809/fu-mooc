@@ -12,4 +12,5 @@ public interface MemberService {
     MemberDto findByMobile(String mobile);
     Member selectByMobile(String mobile);
     LoginMemberDto login(MemberDto memberDto);
+    void resetPassword(MemberDto memberDto);
 }

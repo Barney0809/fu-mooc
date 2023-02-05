@@ -131,4 +131,19 @@ public class MemberServiceImpl implements MemberService {
             }
         }
     }
+
+    /**
+     * 重置密码
+     */
+    public void resetPassword(MemberDto memberDto) throws BusinessException {
+        Member memberDb = this.selectByMobile(memberDto.getMobile());
+        if (memberDb == null) {
+            throw new BusinessException(ExceptionEnum.MEMBER_NOT_EXIST);
+        } else {
+            Member member = new Member();
+            member.setId(memberDb.getId());
+            member.setPassword(memberDto.getPassword());
+            memberMapper.updateByPrimaryKeySelective(member);
+        }
+    }
 }
