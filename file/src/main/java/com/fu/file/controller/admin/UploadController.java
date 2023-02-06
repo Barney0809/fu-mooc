@@ -45,6 +45,9 @@ public class UploadController {
     @Value("${vod.accessKeySecret}")
     private String accessKeySecret;
 
+    @Value("${oss.ossDomain}")
+    private String OSS_DOMAIN;
+
 
     @RequestMapping("/upload")
     public ResponseDto upload(@RequestBody FileDto fileDto) throws Exception {
@@ -148,7 +151,7 @@ public class UploadController {
         FileDto fileDto = fileService.findByKey(key);
         if (fileDto != null) {
             if (StringUtils.isEmpty(fileDto.getVod())) {
-                fileDto.setPath(FILE_DOMAIN + fileDto.getPath());
+                fileDto.setPath(OSS_DOMAIN + fileDto.getPath());
             } else {
                 DefaultAcsClient vodClient = VodUtil.initVodClient(accessKeyId, accessKeySecret);
                 GetMezzanineInfoResponse response = VodUtil.getMezzanineInfo(vodClient, fileDto.getVod());
