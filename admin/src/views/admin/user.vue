@@ -203,8 +203,10 @@ export default {
       }).then((response) => {
         Loading.hide();
         console.log("查询用户表 列表结果：", response);
-        _this.users = response.data.data.list;
-        _this.$refs.pagination.render(page, response.data.data.total);
+        if (response.data.code === "0") {
+          _this.users = response.data.data.list;
+          _this.$refs.pagination.render(page, response.data.data.total);
+        }
       })
     },
 
