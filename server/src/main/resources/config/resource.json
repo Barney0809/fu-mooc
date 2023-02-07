@@ -141,6 +141,48 @@
             ]
           }
         ]
+      },
+      {
+        "id": "0206",
+        "name": "大章管理",
+        "page": "business/chapter",
+        "children": [
+          {
+            "id": "020601",
+            "name": "增删改查",
+            "request": [
+              "/business/admin/chapter"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "0207",
+        "name": "课程内容管理",
+        "page": "business/content",
+        "children": [
+          {
+            "id": "020701",
+            "name": "增删改查",
+            "request": [
+              "/business/admin/course"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "0208",
+        "name": "小节管理",
+        "page": "business/section",
+        "children": [
+          {
+            "id": "020801",
+            "name": "增删改查",
+            "request": [
+              "/business/admin/section"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -158,6 +200,13 @@
             "name": "文件管理",
             "request": [
               "/business/admin/file"
+            ]
+          },
+          {
+            "id": "030102",
+            "name": "视频播放",
+            "request": [
+              "/file/admin"
             ]
           }
         ]
