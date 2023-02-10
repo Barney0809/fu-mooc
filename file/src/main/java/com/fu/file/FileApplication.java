@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
@@ -12,6 +13,7 @@ import org.springframework.core.env.Environment;
 @SpringBootApplication
 @ComponentScan("com.fu")
 @MapperScan("com.fu.server.mapper")
+@EnableDiscoveryClient
 public class FileApplication {
     public static final Logger log = LoggerFactory.getLogger(FileApplication.class);
 
