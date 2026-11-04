@@ -1,0 +1,29 @@
+# 换行符说明：
+#   仓库里 378/401 个文本文件是 CRLF，如果在这里加 `* text=auto eol=lf`，
+#   下次 git add 会把它们全部重写一遍，产生一个几百文件的“全是换行”的提交。
+#   所以暂不做归一化。以后想统一成 LF 时，单独提交一次：
+#       * text=auto eol=lf
+#       git add --renormalize .
+
+# 二进制文件
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.jar  binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.eot  binary
+
+# 第三方模板/插件，不计入语言统计
+admin/public/ace/**             linguist-vendored
+admin/public/zTree_v3/**        linguist-vendored
+admin/public/static/js/md5.js   linguist-vendored
+web/public/bootstrap-4.6.2/**   linguist-vendored
+web/public/static/js/md5.js     linguist-vendored
+
+# 打包产物与 sourcemap
+dist/**    linguist-generated
+*.map      linguist-generated

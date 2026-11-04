@@ -10,13 +10,21 @@ import java.util.regex.Pattern;
 
 public class DbUtil {
 
+    /**
+     * 取环境变量，没有就用默认值（默认指向本地开发库）
+     */
+    private static String env(String key, String defaultValue) {
+        String value = System.getenv(key);
+        return (value == null || value.isEmpty()) ? defaultValue : value;
+    }
+
     public static Connection getConnection() {
         Connection conn = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/mooc?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=true";
-            String user = "root";
-            String pass = "123456";
+            String url = env("DB_URL", "jdbc:mysql://localhost:3306/mooc?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=true");
+            String user = env("DB_USERNAME", "root");
+            String pass = env("DB_PASSWORD", "123456");
             conn = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();

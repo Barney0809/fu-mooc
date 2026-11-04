@@ -130,13 +130,21 @@ public class VodUtil {
         return client.getAcsResponse(request);
     }
 
+    /**
+     * 本地调试用：上传一个本地视频，验证 AK 与 VOD 配置是否可用。
+     * 密钥不要写死在代码里，用环境变量传入：
+     *   VOD_ACCESS_KEY_ID / VOD_ACCESS_KEY_SECRET
+     * 参数：本地视频文件完整路径（含扩展名）
+     */
     public static void main(String[] argv) {
-        //您的AccessKeyId
-        String accessKeyId = "LTAI5tBheJZUBDkHEiGTKZEN";
-        //您的AccessKeySecret
-        String accessKeySecret = "LPZmbE48a4D9AoG1JffYOa1cbjM31F";
-        //需要上传到VOD的本地视频文件的完整路径，需要包含文件扩展名
-        String localFile = "C:\\Users\\Barney\\Desktop\\test.mp4";
+        String accessKeyId = System.getenv("VOD_ACCESS_KEY_ID");
+        String accessKeySecret = System.getenv("VOD_ACCESS_KEY_SECRET");
+        String localFile = argv.length > 0 ? argv[0] : "";
+        if (accessKeyId == null || accessKeySecret == null || localFile.isEmpty()) {
+            System.out.println("用法：先设置环境变量 VOD_ACCESS_KEY_ID / VOD_ACCESS_KEY_SECRET，"
+                    + "再执行 java com.fu.server.utils.VodUtil <本地视频文件路径>");
+            return;
+        }
         try {
             // 初始化VOD客户端并获取上传地址和凭证
             DefaultAcsClient vodClient = initVodClient(accessKeyId, accessKeySecret);
